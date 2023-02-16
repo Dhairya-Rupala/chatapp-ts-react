@@ -18,7 +18,7 @@ const useChatBoxActions = (
   );
 
   useEffect(() => {
-    const enterPressHandler = (event: KeyboardEvent<Element>) => {
+    const enterPressHandler = (event: KeyboardEvent) => {
       if (event.code === "Enter" && !event.shiftKey) {
         if (currentMessage.trim() !== "" && !!currentChatMessages?.name) {
           onAction({
