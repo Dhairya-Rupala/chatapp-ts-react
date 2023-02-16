@@ -1,5 +1,5 @@
 // libs
-import { useState, useContext, useEffect, useRef, KeyboardEvent } from "react";
+import { useState, useContext, useLayoutEffect,useEffect, useRef, KeyboardEvent } from "react";
 // context
 import { UserContext } from "../contexts/UserContext";
 // types
@@ -52,7 +52,7 @@ const useChatBoxActions = (
     user.name,
   ]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     messagesEndRef?.current?.scrollIntoView();
   }, [currentChatMessages]);
 
