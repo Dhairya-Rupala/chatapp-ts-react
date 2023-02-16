@@ -1,0 +1,52 @@
+.overlay {
+    border-radius: 16px;
+    position: absolute;
+    inset: 0;
+    background-color: rgb(89, 88, 88);
+    opacity: 0.5;
+    color: red;
+}
+
+.adduser_form {
+    position: absolute;
+    opacity: initial;
+    inset: 0;
+    height: 300px;
+    width: 400px;
+    background-color: rgb(252, 252, 252);
+    margin: auto;
+    border-radius: 16px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 30px; 
+    gap: 30px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.button_group{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.button_group button{
+    height: 40px;
+    width: 60px;
+}
+
+input{
+    height: 30px;
+
+}
+
+.label {
+    font-size: 1.2rem;
+    font-weight: 500;
+}

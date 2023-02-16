@@ -1,0 +1,31 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+.chatWrapper{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: 10px;
+}
+
+.write_message{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.current_chat_name{
+    font-size: 1.8rem;
+    height: 60px;
+    padding: 10px;
+    font-weight: 540;
+    border-bottom: 1px solid black;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+
+}

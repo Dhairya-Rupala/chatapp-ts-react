@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
+button {
+    cursor: pointer;
+    background-color: #175AD2;
+    padding: 8px;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid;
+}
+
+button:disabled {
+    background-color: dimgrey;
+    color: linen;
+    cursor: not-allowed;
+}

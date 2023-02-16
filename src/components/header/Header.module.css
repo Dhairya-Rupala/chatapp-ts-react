@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 16px;
+}
+
+.wrapper button{
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+.title {
+    font-size:2.5rem;
+    flex: 1;
+} 
+
+.adduser_btn{
+    cursor: pointer;
+    background-color: #175AD2;
+    padding:8px;
+            color: white;
+            border-radius: 8px;
+            border:1px solid;
+}
+
+
+

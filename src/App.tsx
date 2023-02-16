@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// styles
+import "./styles.css";
+// components
+import Layout from "./components/layout/Layout";
+import Header from "./components/header/Header";
+import ChatList from "./components/chatList/ChatList";
+import ChatBox from "./components/chatBox/ChatBox";
+// hooks
+import useChatActions from "./hooks/useChatActions";
+// context
+import { UserContext } from "./contexts/UserContext";
 
-function App() {
+export default function App() {
+  const { userChats, currentChat, user, onAction } = useChatActions();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={user}>
+      <Layout
+        top={<Header onAction={onAction} />}
+        left={<ChatList userChats={userChats} onAction={onAction} currentChat={currentChat}/>}
+        right={
+          <ChatBox
+            currentChat={currentChat}
+            userChats={userChats}
+            onAction={onAction}
+          />
+        }
+      />
+    </UserContext.Provider>
   );
 }
-
-export default App;

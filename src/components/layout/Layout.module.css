@@ -1,0 +1,47 @@
+.wrapper {  
+    border-radius: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    color: black;
+    padding: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.top {
+    padding: 10px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    font-weight: 530;
+}
+
+.body {
+    padding: 10px;
+    flex: 1;
+    display: flex;
+    overflow: scroll;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    gap: 10px;
+    
+}
+
+.left {
+    width: 30%;
+    border: 1px solid rgb(109, 109, 109);
+    overflow: scroll;
+    border-radius: 16px;
+    padding: 10px;
+}
+
+.right {
+    border: 1px solid rgb(113, 113, 113);
+    flex: 1;
+    border-radius: 16px;
+}
+
