@@ -7,7 +7,7 @@ export type LayoutProps = {
 export type MessageProps = {
     content: string,
     from: {
-        id: number,
+        id: string,
         name:string
     }
 }
@@ -33,17 +33,17 @@ export type HeaderProps = {
 export type Message = {
     content: string,
     from: {
-        id: number,
+        id: string,
         name:string
     },
     to: {
-        id: number,
+        id: string,
         name:string
     }
 }
 
 export type UserChat = {
-    id: number,
+    id: string,
     name: string,
     profile_picture: string,
     messages:Message[]
@@ -51,18 +51,18 @@ export type UserChat = {
 
 export type ChatListProps = {
     userChats: UserChat[],
-    currentChat:number,
+    currentChat:string,
     onAction: (args:onActionProps)=> void,
 }
 
 export type ChatListItemProps = {
     chat: UserChat,
-    currentChat:number,
+    currentChat:string,
     onAction: (args:onActionProps)=> void,
 }
 
 export type ChatBoxProps = {
-    currentChat: number,
+    currentChat: string,
     userChats: UserChat[],
     onAction: (args:onActionProps)=> void,
 }

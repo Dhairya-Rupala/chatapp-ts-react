@@ -7,7 +7,7 @@ import { UserChat, onActionProps } from "../types";
 
 const useChatBoxActions = (
   userChats: UserChat[],
-  currentChat: number,
+  currentChat: string,
   onAction: (args: onActionProps) => void
 ) => {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -57,7 +57,6 @@ const useChatBoxActions = (
   }, [currentChatMessages]);
 
   const onSend = () => {
-    console.log("sending...");
     onAction({
       type: "MESSAGE_SENT",
       payload: {

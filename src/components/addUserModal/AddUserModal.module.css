@@ -10,7 +10,7 @@
 .adduser_form {
     position: absolute;
     inset: 0;
-    height: 300px;
+    height: 200px;
     width: 400px;
     background-color: rgb(252, 252, 252);
     margin: auto;
@@ -41,8 +41,7 @@
 }
 
 input{
-    height: 30px;
-
+    height: 40px;
 }
 
 .label {
