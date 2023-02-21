@@ -17,7 +17,8 @@ const AddUserModal = ({ addUser, setAddUser, onAction }: AddUserModalProps) => {
       <div className={styles.adduser_form}>
         <div className={styles.field}>
           <span className={styles.label}>Username</span>
-          <input
+                  <input
+                      className={styles.username_input}
             type="text"
             placeholder="Enter the username"
             onChange={(e) => {

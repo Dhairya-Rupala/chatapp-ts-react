@@ -1,5 +1,5 @@
 // libs
-import { useState, useContext, useLayoutEffect,useEffect, useRef, KeyboardEvent } from "react";
+import { useState, useContext, useLayoutEffect, useRef, KeyboardEvent, useCallback } from "react";
 // context
 import { UserContext } from "../contexts/UserContext";
 // types
@@ -17,9 +17,8 @@ const useChatBoxActions = (
     (chat) => chat.id === currentChat
   );
 
-  useEffect(() => {
-    const enterPressHandler = (event: KeyboardEvent) => {
-      if (event.code === "Enter" && !event.shiftKey) {
+  const enterPressHandler = useCallback((event:KeyboardEvent) => {
+    if (event.code === "Enter" && !event.shiftKey) {
         if (currentMessage.trim() !== "" && !!currentChatMessages?.name) {
           onAction({
             type: "MESSAGE_SENT",
@@ -38,19 +37,7 @@ const useChatBoxActions = (
           setCurrentMessage("");
         }
       }
-    };
-    // window.addEventListener("keydown", enterPressHandler);
-    return () => {
-      // window.removeEventListener("keydown", enterPressHandler);
-    };
-  }, [
-    currentMessage,
-    currentChat,
-    currentChatMessages?.name,
-    onAction,
-    user.id,
-    user.name,
-  ]);
+    },[currentChat, currentChatMessages?.name, currentMessage, onAction, user.id, user.name]);
 
   useLayoutEffect(() => {
     messagesEndRef?.current?.scrollIntoView();
@@ -81,6 +68,7 @@ const useChatBoxActions = (
     onSend,
     user,
     messagesEndRef,
+    enterPressHandler
   };
 };
 
