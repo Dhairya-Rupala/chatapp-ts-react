@@ -7,7 +7,7 @@ import { SEND_MESSAGE } from "./actionTypes";
 
 export type ChatBoxProps = {
     activeChatId: string,
-    activeMessages: MessageType[],
+    activeMessages: MessageType[] | null,
     onAction: onActionType
 }
 

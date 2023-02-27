@@ -1,33 +1,37 @@
+// libs 
+import { useEffect } from "react";
+
 // components 
 import { Layout } from "../../components/layout";
 import { ChatList } from "../../components/chatList";
 import { Header } from "../../components/header";
 import { ChatBox } from "../../components/chatBox";
 
-// context
-import { useUser } from "../../contexts/UserContext";
 
 // hooks
 import { useExtendedChatActions } from "../../hooks/useExtendedChatActions";
 
+// types 
+import { HomeProps } from "./types";
+
 // dummy data 
-import { Users, Messages, PersonalChats } from "../../dummy_data";
+import { Users, Messages, PersonalChats,CurrentUser } from "../../dummy_data";
 
 
-export const Home = () => {
-    const user = useUser()
-    const { activeChatId, activeMessages, friendList, onAction } = useExtendedChatActions(user);
+export const Home = ({ onAuthAction }: HomeProps) => {
+    const { activeChatId, activeMessages, friendList, onAction } = useExtendedChatActions();
 
-    // useEffect(() => {
+  //   useEffect(() => {
   //   window.localStorage.setItem("Users", JSON.stringify(Users));
   //   window.localStorage.setItem("Messages", JSON.stringify(Messages));
-  //   window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
+  //     window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
+  //     window.localStorage.setItem("CurrentUser", JSON.stringify(CurrentUser));
   // },[])
     
     return (
         <Layout>
         <Layout.Slot name="header">
-          <Header onAction={onAction}/>
+          <Header onAuthAction={onAuthAction}/>
       </Layout.Slot>
       <Layout.Slot name="leftPanel">
          <ChatList friendList={friendList} onAction={onAction} activeChatId={activeChatId}/>

@@ -1,5 +1,6 @@
 export type FormProps = {
     title: string,
     footerMessage: string,
-    onSubmit: () => void;
+    onSubmit: (...args:any)=>void;
+    route: string;
 }

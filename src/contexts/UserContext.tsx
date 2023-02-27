@@ -1,22 +1,24 @@
 // libs
 import { createContext, useContext } from "react";
 
-// dummy data 
-import { CurrentUser } from "../dummy_data";
+// hooks 
+import { useAuth } from "../hooks/useAuth";
+
 
 // types 
 import { UserProviderProps } from "./types";
-import { UserType } from "../types";
+import { UserType,onAuthActionType } from "../types";
 
 
 
 
 
-export const UserContext = createContext<UserType | undefined>(undefined);
+export const UserContext = createContext<[UserType | null,onAuthActionType] | null>(null);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
+  const { user, onAuthAction } = useAuth();
   return (
-    <UserContext.Provider value={CurrentUser}>
+    <UserContext.Provider value={[user,onAuthAction]}>
       {children}
     </UserContext.Provider>
   );
@@ -24,5 +26,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
+  if (!context) throw new Error("Context should be used inside the context provider")
   return context;
 };

@@ -1,7 +1,7 @@
 export type MessageProps = {
     content: string,
     from: {
-        id: string,
-        name:string
+        id: string | null ,
+        name:string | null,
     }
 }

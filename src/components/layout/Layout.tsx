@@ -3,14 +3,14 @@ import React from "react";
 // styles
 import styles from "./Layout.module.css";
 // types
-import { SLOT_NAMES,Slot,LayoutType } from "./types";
+import { SLOT_NAMES,Slot,LayoutType,LayoutProps } from "./types";
 
 
-const Layout:LayoutType = ({ children }: any) => {
+const Layout:LayoutType = ({ children }: LayoutProps) => {
   const Slots : {
     [slot:string]:JSX.Element
   } = {}
-
+  
   React.Children.forEach(children, (child: React.ReactElement) => {
     Slots[child?.props?.name] = child?.props?.children
   })
@@ -31,13 +31,4 @@ Layout.Slot=Slot
 export {Layout}
 
 
-
-
-// export const Layout2:LayoutType = ({ children }):JSX.Element => {
-//   const Slots:any = {};
-//   React.Children.forEach(children, (child: React.ReactElement) => {
-//     Slots[child?.props?.name] = child?.props?.children;
-//   })
-//   return <>{Slots["body"]}</>
-// }
 

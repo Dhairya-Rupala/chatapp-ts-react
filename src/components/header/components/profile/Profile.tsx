@@ -4,7 +4,7 @@ import { useUser } from "../../../../contexts/UserContext";
 import styles from "./Profile.module.css";
 
 export const Profile = () => {
-  const user = useUser();
+  const [user] = useUser();
   return (
     <div className={styles.wrapper}>
       <img

@@ -1,33 +1,36 @@
 // libs
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 // components
 import { Profile } from "./components/profile";
-import { AddUserModal } from "./components/addUserModal";
 import { Button } from "../button";
 // styles
 import styles from "./Header.module.css";
 // types 
 import { HeaderProps } from "./types";
+import { LOGOUT } from "./actionTypes";
 
-export const Header = ({ onAction }: HeaderProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const Header = ({ onAuthAction }: HeaderProps) => {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddUserClick = useCallback(() => {
-    setIsModalOpen(!isModalOpen);
-  },[isModalOpen])
+  const handleLogOut = useCallback(() => {
+    onAuthAction({
+      type: LOGOUT,
+      payload:null,
+      })
+  },[onAuthAction])
 
   return (
     <>
       <div className={styles.wrapper}>
         <span className={styles.title}>Chat App</span>
         <Button
-          onClick={handleAddUserClick}
+          onClick={handleLogOut}
         >
-          Add User
+         Log Out
         </Button>
         <Profile />
       </div>
-        <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} onAction={onAction} />
+        {/* <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} onAction={onAction} /> */}
     </>
   );
 };

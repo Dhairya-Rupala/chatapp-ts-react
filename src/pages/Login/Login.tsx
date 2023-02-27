@@ -1,9 +1,29 @@
+// libs 
+import { useCallback } from "react";
+
 // components 
 import { Form } from "../../components/form";
 
+// types 
+import { LogInProps } from "./types";
 
-export const Login = () => {
+// actions 
+import { LOGIN } from "./actionTypes";
+
+
+export const Login = ({ onAuthAction }: LogInProps) => {
+    
+    const handleLogin = useCallback((username:string,password:string) => {
+        onAuthAction({
+            type: LOGIN,
+            payload: {
+                username,
+                password
+            }
+        })
+    }, [onAuthAction])
+    
     return (
-        <Form title="Login" onSubmit={()=>console.log("Login")} footerMessage="Do not have an account? SIGN IN"/>
+        <Form title="Login" onSubmit={handleLogin} footerMessage="Do not have an account? SIGN UP" route="signup"/>
     )
 }

@@ -1,11 +1,14 @@
 // libs 
 import { useState, useMemo, useCallback, useEffect } from "react";
 
+// hooks
+import { useUser } from "../contexts/UserContext";
+
 // utils 
-import { getFriendsList, getActiveMessages,updateLocalStorage } from "../utils/utils";
+import { getFriendsList, getActiveMessages,updateLocalStorage } from "../utils/chatUtils";
 
 // types 
-import { MessageType, UserType } from "../types";
+import { MessageType,ChatActions } from "../types";
 
 // actions 
 import { SEND_MESSAGE } from "../components/chatBox/actionTypes";
@@ -13,12 +16,16 @@ import { CHANGE_ACTIVE_CHAT } from "../components/chatList/actionTypes";
 
 
 
-export const useExtendedChatActions = (user:UserType | undefined) => {
+
+export const useExtendedChatActions = () => {
+    const [user] = useUser()
     const [activeChatId, setActiveChatId] = useState("");
     const [activeMessages, setActiveMessages] = useState<MessageType[]>([]);
 
     const friendList = useMemo(() => {
-        if (user) return getFriendsList(user.id, user.personalChats);
+        if (user) {
+            return getFriendsList(user.id, user.personalChats);
+        }
         return []
     }, [user])
 
@@ -31,7 +38,7 @@ export const useExtendedChatActions = (user:UserType | undefined) => {
     }, [activeChatId, user, user?.id])
 
 
-    const onAction = useCallback((action: any) => {
+    const onAction = useCallback((action: ChatActions) => {
         switch (action.type) {
             case SEND_MESSAGE:
                 const updatedActiveMessages = [...activeMessages,action.payload];

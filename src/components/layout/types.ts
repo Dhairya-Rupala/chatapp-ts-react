@@ -26,6 +26,6 @@ export interface LayoutProps{
 export const Slot = (props: SlotProps) => null;
 type SlotType = typeof Slot;
 
-export type LayoutType = ((props: LayoutProps) => JSX.Element) & {
+export type LayoutType = ((props: LayoutProps) => React.ReactElement) & {
     Slot:SlotType
 }

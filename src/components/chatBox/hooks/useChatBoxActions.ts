@@ -9,13 +9,13 @@ import { SEND_MESSAGE } from "../actionTypes";
 import { MessageType,onActionType,UserType } from "../../../types";
 
 // utils 
-import { getUserNameFromId } from "../../../utils/utils"
+import { getUserNameFromId } from "../../../utils/chatUtils"
 
 export const useChatBoxActions = (
-  activeMessages: MessageType[],
+  activeMessages: MessageType[] | null,
   activeChatId: string,
   onAction: onActionType,
-  user:UserType | undefined
+  user:UserType | null
 ) => {
   
   const [currentMessage, setCurrentMessage] = useState("");

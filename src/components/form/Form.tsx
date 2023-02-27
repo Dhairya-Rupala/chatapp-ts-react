@@ -1,5 +1,6 @@
 // libs 
 import { useState, useCallback, ChangeEvent } from "react";
+import { Link } from "react-router-dom";
 
 // components 
 import { Button } from "../button";
@@ -10,7 +11,7 @@ import styles from "./Form.module.css";
 // types 
 import { FormProps } from "./types";
 
-export const Form = ({title,footerMessage,onSubmit}:FormProps) => {
+export const Form = ({title,footerMessage,route,onSubmit}:FormProps) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -23,8 +24,8 @@ export const Form = ({title,footerMessage,onSubmit}:FormProps) => {
     }, [])
     
     const onButtonClick = useCallback(() => {
-        onSubmit();
-    },[onSubmit])
+        onSubmit(username,password);
+    },[onSubmit, password, username])
 
 
     return (
@@ -42,7 +43,9 @@ export const Form = ({title,footerMessage,onSubmit}:FormProps) => {
             </div>
             <div className={styles.footer}>
                 <Button onClick={onButtonClick}>{title}</Button>
-                <div className={styles.footerMessage}>{footerMessage}</div>
+                <Link to={`/${route}`}>
+                    <div className={styles.footerMessage}>{footerMessage}</div>
+                </Link>
             </div>
 
         </div>
