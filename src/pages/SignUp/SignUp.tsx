@@ -11,7 +11,7 @@ import { SignUpProps } from "./types";
 import { SIGNUP } from "./actionTypes";
 
 
-export const SignUp = ({ onAuthAction }: SignUpProps) => {
+export const SignUp = ({ onAuthAction,error }: SignUpProps) => {
     const handleSignUp = useCallback((username:any,password:any) => {
         onAuthAction({
             type: SIGNUP,
@@ -22,6 +22,6 @@ export const SignUp = ({ onAuthAction }: SignUpProps) => {
         })
     }, [onAuthAction])
     return (
-        <Form title="Sign Up" onSubmit={handleSignUp} footerMessage="Already have an account? Log In" route="login"/>
+        <Form title="Sign Up" onSubmit={handleSignUp} footerMessage="Already have an account? Log In" route="login" error={error} />
     )
 }

@@ -11,19 +11,19 @@ import styles from "./Form.module.css";
 // types 
 import { FormProps } from "./types";
 
-export const Form = ({title,footerMessage,route,onSubmit}:FormProps) => {
+export const Form = ({title,footerMessage,route,onSubmit,error}:FormProps) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const onUsernameChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+    const handleUsernameChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
     }, [])
 
-    const onPasswordChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     }, [])
     
-    const onButtonClick = useCallback(() => {
+    const handleSubmit = useCallback(() => {
         onSubmit(username,password);
     },[onSubmit, password, username])
 
@@ -34,15 +34,16 @@ export const Form = ({title,footerMessage,route,onSubmit}:FormProps) => {
             <div className={styles.body}>
                 <div className={styles.fieldWrapper}>
                 <div className={styles.label}>Username</div>
-                <input className={styles.field} onChange={onUsernameChange} value={username} />
+                <input className={styles.field} onChange={handleUsernameChange} value={username} />
             </div>
             <div className={styles.fieldWrapper}>
                 <div className={styles.label}>Password</div>
-                <input className={styles.field} onChange={onPasswordChange} value={password} />
+                <input className={styles.field} onChange={handlePasswordChange} value={password} />
             </div>
             </div>
+            {error ? <div className={styles.error}>{error}</div>:null}
             <div className={styles.footer}>
-                <Button onClick={onButtonClick}>{title}</Button>
+                <Button onClick={handleSubmit}>{title}</Button>
                 <Link to={`/${route}`}>
                     <div className={styles.footerMessage}>{footerMessage}</div>
                 </Link>

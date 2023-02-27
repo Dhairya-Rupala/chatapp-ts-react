@@ -10,5 +10,6 @@ export type SignUp = {
 }
 
 export type SignUpProps = {
-    onAuthAction:onAuthActionType
+    onAuthAction: onAuthActionType,
+    error:string | null
 }

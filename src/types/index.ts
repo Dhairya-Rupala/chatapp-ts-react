@@ -54,5 +54,22 @@ export type PersonalChatsType = {
 }
 
 
+export enum AUTH_STATUS {
+  IDLE = "IDLE",
+  LOGIN_START = "LOGIN_START",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  LOGIN_FAIL = "LOGIN_FAIL",
+  SIGNUP_START = "SIGNUP_START",
+  SIGNUP_SUCCESS = "SIGNUP_SUCCESS",
+  SIGNUP_FAIL = "SIGNUP_FAIL",
+  LOGOUT_START = "LOGOUT_START",
+  LOGOUT_FAIL = "LOGOUT_FAIL",
+  LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
+}
 
+export type AuthProcessType = {
+  status: string;
+  user: UserType | null;
+  error: string | null;
+};
 

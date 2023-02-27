@@ -11,7 +11,7 @@ import { LogInProps } from "./types";
 import { LOGIN } from "./actionTypes";
 
 
-export const Login = ({ onAuthAction }: LogInProps) => {
+export const Login = ({ onAuthAction,error }: LogInProps) => {
     
     const handleLogin = useCallback((username:string,password:string) => {
         onAuthAction({
@@ -24,6 +24,6 @@ export const Login = ({ onAuthAction }: LogInProps) => {
     }, [onAuthAction])
     
     return (
-        <Form title="Login" onSubmit={handleLogin} footerMessage="Do not have an account? SIGN UP" route="signup"/>
+        <Form title="Login" onSubmit={handleLogin} footerMessage="Do not have an account? SIGN UP" route="signup" error={error} />
     )
 }

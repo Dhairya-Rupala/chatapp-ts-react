@@ -16,31 +16,14 @@ import "./styles.css";
 
 
 export default function App() {
-  const [user, onAuthAction] = useUser()
+  const { user,error, onAuthAction } = useUser()
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={user ? <Home onAuthAction={onAuthAction}/> : <Login onAuthAction={onAuthAction} /> } />
-        <Route path="login" element={<Login onAuthAction={onAuthAction} />} />
-        <Route path="signup" element={<SignUp onAuthAction={onAuthAction} /> } />
+        <Route path="/" element={user ? <Home onAuthAction={onAuthAction} /> : <Login onAuthAction={onAuthAction} error={error} /> } />
+        <Route path="login" element={<Login onAuthAction={onAuthAction} error={error}/>} />
+        <Route path="signup" element={<SignUp onAuthAction={onAuthAction} error={error}/> } />
       </Routes>
     </div>
   );
 }
-
-
-
-
-/*
-Workflow 
-
-if the user is logged in then show the home page for that user
-
-check the user exists or not in the localstorage 
-
-make the context for the user and setuser on the top level 
-
-login/signup will be using the setUser functionality for setting the user
-
-
-*/

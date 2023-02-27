@@ -7,18 +7,15 @@ import { useAuth } from "../hooks/useAuth";
 
 // types 
 import { UserProviderProps } from "./types";
-import { UserType,onAuthActionType } from "../types";
+import { UserContextType } from "./types";
 
 
-
-
-
-export const UserContext = createContext<[UserType | null,onAuthActionType] | null>(null);
+export const UserContext = createContext <UserContextType>(null);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const { user, onAuthAction } = useAuth();
+  const { authProcess, onAuthAction } = useAuth();
   return (
-    <UserContext.Provider value={[user,onAuthAction]}>
+    <UserContext.Provider value={{ ...authProcess, onAuthAction }}>
       {children}
     </UserContext.Provider>
   );

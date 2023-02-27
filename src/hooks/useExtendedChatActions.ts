@@ -18,7 +18,7 @@ import { CHANGE_ACTIVE_CHAT } from "../components/chatList/actionTypes";
 
 
 export const useExtendedChatActions = () => {
-    const [user] = useUser()
+    const {user} = useUser()
     const [activeChatId, setActiveChatId] = useState("");
     const [activeMessages, setActiveMessages] = useState<MessageType[]>([]);
 
@@ -62,34 +62,3 @@ export const useExtendedChatActions = () => {
 }
 
 
-/*
-
-State structure 
-activeUser = currently logged in user 
-
-// will just be the memoized list not state 
-usersList  = list of the users activeUser has chat with 
-           --> can be derived with the given flow
-               
-               map over the 
-               activeUser.personalChats and send the chat id into resolve for the 
-               friend user key
-               
-               utils
-                    1. resolver(compositekey,user) => filtered friend user key 
-                from the key can directly fetch the userinfo from the user table
-
-
-activeChat = currently rendered chat
-            --> can be derived with the given flow 
-                
-                utils
-                     1. createCompositeKey(id1,id2)=>returns the composite key
-                     2. can fetch the messages from the 
-                        PersonalChats.compositeKey.Messages 
-
-
-composite key will be : the small string first then the big string and the placeholder 
-will be #
-
-*/

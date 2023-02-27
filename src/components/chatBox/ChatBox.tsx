@@ -15,7 +15,7 @@ import { ChatBoxProps } from "./types";
 
 
 export const ChatBox = ({ activeChatId, activeMessages, onAction }: ChatBoxProps) => {
-  const [user] = useUser();
+  const {user} = useUser();
   const { currentMessage, setCurrentMessage, onSend,messagesEndRef,enterPressHandler,activeChatUserName } = useChatBoxActions(
     activeMessages,
     activeChatId,

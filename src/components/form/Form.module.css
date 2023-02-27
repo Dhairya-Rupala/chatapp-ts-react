@@ -51,3 +51,8 @@
     text-align: center;
     color: rgb(46, 46, 46);
 }
+
+.error{
+    color: red;
+    font-size: 1.1rem;
+}
