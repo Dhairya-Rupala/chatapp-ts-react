@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 15px;
     height: 100%;
+    position: relative;
 }
 
 .chatWrapper{
@@ -13,13 +14,13 @@
     padding: 10px;
 }
 
-.write_message{
+.writeMessage{
     display: flex;
     gap: 10px;
     padding: 10px;
 }
 
-.current_chat_name{
+.currentChatName{
     font-size: 1.8rem;
     height: 60px;
     padding: 10px;
@@ -30,7 +31,7 @@
 
 }
 
-.chat_input{
+.chatInput{
     flex-grow: 1;
     border-radius: 8px;
     border: 2px solid black;

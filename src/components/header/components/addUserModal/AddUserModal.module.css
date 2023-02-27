@@ -1,0 +1,53 @@
+.overlay {
+    border-radius: 16px;
+    position: absolute;
+    inset: 0;
+    background-color: rgb(89, 88, 88);
+    opacity: 0.5;
+    color: red;
+}
+
+.modalBody {
+    position: absolute;
+    inset: 0;
+    height: 200px;
+    width: 400px;
+    background-color: rgb(252, 252, 252);
+    margin: auto;
+    border-radius: 16px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 30px; 
+    gap: 30px;
+}
+
+.fieldWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.label {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.inputField {
+    height: 40px;
+}
+
+.buttonGroup{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.buttonGroup button{
+    height: 40px;
+    width: 60px;
+}
+
+
+

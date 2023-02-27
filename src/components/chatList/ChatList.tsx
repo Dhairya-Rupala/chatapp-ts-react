@@ -1,18 +1,16 @@
 // components 
-import ChatListItem from "../chatListItem/ChatListItem";
+import {ChatListItem} from "./components/chatListItem";
 // styles
 import styles from "./ChatList.module.css";
 // types 
-import { ChatListProps } from "../../types"; 
+import { ChatListProps } from "./types"; 
 
-const ChatList = ({userChats,currentChat,onAction}:ChatListProps) => {
+export const ChatList = ({ friendList, activeChatId, onAction }: ChatListProps) => {
   return (
     <div className={styles.wrapper}>
-      {userChats?.map((chat, index) => (
-        <ChatListItem key={index} chat={chat} currentChat={currentChat} onAction={onAction} />
+      {friendList?.map((chat, index) => (
+        <ChatListItem key={index} chat={chat} isActive={activeChatId===chat?.id} onAction={onAction} />
       ))}
     </div>
   );
 };
-
-export default ChatList;

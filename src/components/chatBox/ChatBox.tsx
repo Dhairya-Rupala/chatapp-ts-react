@@ -1,52 +1,74 @@
+// libs 
+import { ChangeEvent, useCallback,KeyboardEvent } from "react";
 // components
-import Message from "../message/Message";
+import { Message } from "./components/message";
+import { Button } from "../button"
+import { EmptyState } from "./components/emptyState";
+// hooks
+import { useChatBoxActions } from "./hooks/useChatBoxActions";
+import { useUser } from "../../contexts/UserContext";
 // styles 
 import styles from "./ChatBox.module.css";
-// hooks
-import useChatBoxActions from "../../hooks/useChatBoxActions";
 // types
-import { ChatBoxProps } from "../../types";
+import { ChatBoxProps } from "./types";
 
-const ChatBox = ({ currentChat, userChats, onAction }:ChatBoxProps) => {
-  const { currentChatMessages, currentMessage, setCurrentMessage, onSend,messagesEndRef,enterPressHandler } = useChatBoxActions(
-    userChats,
-    currentChat,
-    onAction
+
+
+export const ChatBox = ({ activeChatId, activeMessages, onAction }: ChatBoxProps) => {
+  const user = useUser();
+  const { currentMessage, setCurrentMessage, onSend,messagesEndRef,enterPressHandler,activeChatUserName } = useChatBoxActions(
+    activeMessages,
+    activeChatId,
+    onAction,
+    user
   );
+
+  const handleSendClick = useCallback(() => {
+    onSend();
+  }, [onSend])
+  
+  const handleCurrentMessageChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+    setCurrentMessage(e.target?.value)
+  }, [setCurrentMessage])
+  
+  const handleEnterKeyDown = useCallback((e:KeyboardEvent<HTMLInputElement>) => {
+    enterPressHandler(e);
+  }, [enterPressHandler]);
+  
 
   
   return (
     <div className={styles.wrapper}>
-      <div className={styles.current_chat_name}>{ currentChatMessages?.name }</div>
+      {activeChatId?<><div className={styles.currentChatName}>{ activeChatUserName}</div>
       <div className={styles.chatWrapper}>
-        {currentChatMessages?.messages?.map((message, index) => (
+        {activeMessages?.map((message, index) => (
           <Message
             content={message.content}
-            from={message.from}
+            from={message.from === user?.id ? { id: user?.id, name: user?.name } : {
+              id: activeChatId,
+              name:activeChatUserName
+            }}
             key={index}
           />
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className={styles.write_message}>
+      <div className={styles.writeMessage}>
         <input
           contentEditable
-          className={styles.chat_input}
+          className={styles.chatInput}
           placeholder="Type the message"
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          onKeyDown={(e)=>enterPressHandler(e)}
+          onChange={handleCurrentMessageChange}
+          onKeyDown={handleEnterKeyDown}
           value={currentMessage}
         />
-        <button disabled={currentMessage.trim() === ""}
-          onClick={() => {
-            onSend()
-          }}
+        <Button disabled={currentMessage.trim() === ""}
+          onClick={handleSendClick}
         >
           Send
-        </button>
-      </div>
+        </Button>
+      </div></>:<EmptyState/>}
     </div>
   );
 };
 
-export default ChatBox;

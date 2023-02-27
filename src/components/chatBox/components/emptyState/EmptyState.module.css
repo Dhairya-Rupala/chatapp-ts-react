@@ -1,0 +1,14 @@
+.emptyState{
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 350px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(94, 94, 94);
+}

@@ -1,0 +1,29 @@
+.wrapper{
+    border-radius: 10px;
+    width: fit-content;
+    background-color: rgb(222, 221, 219);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    margin: 10px;
+    color: black;
+
+}
+
+.wrapper[data-alignment="right"] {
+    align-self: flex-end;
+    background-color: #175AD2;
+    color: white;
+}
+
+
+.sender{
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.content{
+    font-size: 1rem;
+}
+

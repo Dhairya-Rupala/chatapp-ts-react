@@ -10,10 +10,10 @@
     margin: auto;
     color: black;
     padding: 10px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 4px 12px 8px;
 }
 
-.top {
+.header {
     padding: 10px;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
@@ -31,7 +31,7 @@
     
 }
 
-.left {
+.leftPanel {
     width: 30%;
     border: 1px solid rgb(109, 109, 109);
     overflow: scroll;
@@ -39,7 +39,7 @@
     padding: 10px;
 }
 
-.right {
+.rightPanel {
     border: 1px solid rgb(113, 113, 113);
     flex: 1;
     border-radius: 16px;

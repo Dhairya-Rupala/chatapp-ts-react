@@ -1,35 +1,33 @@
+// libs
+import { useCallback, useState } from "react";
+// components
+import { Profile } from "./components/profile";
+import { AddUserModal } from "./components/addUserModal";
+import { Button } from "../button";
 // styles
 import styles from "./Header.module.css";
-// components
-import Profile from "../profile/Profile";
-import AddUserModal from "../addUserModal/AddUserModal";
-// libs
-import { useState } from "react";
 // types 
-import { HeaderProps } from "../../types";
+import { HeaderProps } from "./types";
 
-const Header = ({onAction}:HeaderProps) => {
-  const [addUser, setAddUser] = useState(false);
+export const Header = ({ onAction }: HeaderProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddUserClick = useCallback(() => {
+    setIsModalOpen(!isModalOpen);
+  },[isModalOpen])
 
   return (
     <>
       <div className={styles.wrapper}>
         <span className={styles.title}>Chat App</span>
-        <button
-          onClick={() => {
-            setAddUser(!addUser);
-          }}
-          className={styles.adduser_btn}
+        <Button
+          onClick={handleAddUserClick}
         >
           Add User
-        </button>
+        </Button>
         <Profile />
       </div>
-      {addUser ? (
-        <AddUserModal addUser={addUser} setAddUser={setAddUser} onAction={onAction} />
-      ) : null}
+        <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} onAction={onAction} />
     </>
   );
 };
-
-export default Header;

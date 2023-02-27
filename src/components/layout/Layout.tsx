@@ -1,18 +1,43 @@
+// libs 
+import React from "react";
 // styles
 import styles from "./Layout.module.css";
 // types
-import { LayoutProps } from "../../types";
+import { SLOT_NAMES,Slot,LayoutType } from "./types";
 
-const Layout = ({ top, left, right }:LayoutProps) => {
+
+const Layout:LayoutType = ({ children }: any) => {
+  const Slots : {
+    [slot:string]:JSX.Element
+  } = {}
+
+  React.Children.forEach(children, (child: React.ReactElement) => {
+    Slots[child?.props?.name] = child?.props?.children
+  })
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.top}>{top}</div>
+      <div className={styles.header}>{Slots[SLOT_NAMES.HEADER]}</div>
       <div className={styles.body}>
-        <div className={styles.left}>{left}</div>
-        <div className={styles.right}>{right}</div>
+        <div className={styles.leftPanel}>{Slots[SLOT_NAMES.LEFT_PANEL]}</div>
+        <div className={styles.rightPanel}>{Slots[SLOT_NAMES.RIGHT_PANEL]}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+Layout.Slot=Slot
+
+export {Layout}
+
+
+
+
+// export const Layout2:LayoutType = ({ children }):JSX.Element => {
+//   const Slots:any = {};
+//   React.Children.forEach(children, (child: React.ReactElement) => {
+//     Slots[child?.props?.name] = child?.props?.children;
+//   })
+//   return <>{Slots["body"]}</>
+// }
+
