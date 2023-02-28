@@ -10,8 +10,9 @@ import styles from "./Form.module.css";
 
 // types 
 import { FormProps } from "./types";
+import { RESET_AUTH_STATE } from "./actionTypes";
 
-export const Form = ({title,footerMessage,route,onSubmit,error}:FormProps) => {
+export const Form = ({title,footerMessage,redirectRoute,onSubmit,error,onAuthAction}:FormProps) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -25,7 +26,14 @@ export const Form = ({title,footerMessage,route,onSubmit,error}:FormProps) => {
     
     const handleSubmit = useCallback(() => {
         onSubmit(username,password);
-    },[onSubmit, password, username])
+    }, [onSubmit, password, username])
+    
+    const handlePageNavigate = useCallback(() => {
+        onAuthAction({
+            type: RESET_AUTH_STATE,
+            payload:null
+        })
+    },[onAuthAction])
 
 
     return (
@@ -44,7 +52,7 @@ export const Form = ({title,footerMessage,route,onSubmit,error}:FormProps) => {
             {error ? <div className={styles.error}>{error}</div>:null}
             <div className={styles.footer}>
                 <Button onClick={handleSubmit}>{title}</Button>
-                <Link to={`/${route}`}>
+                <Link to={`/${redirectRoute}`} onClick={handlePageNavigate}>
                     <div className={styles.footerMessage}>{footerMessage}</div>
                 </Link>
             </div>

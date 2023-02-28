@@ -16,6 +16,7 @@ import { UserType, AuthActions,AUTH_STATUS,AuthProcessType } from "../types";
 import { LOGIN } from "../pages/Login/actionTypes";
 import { SIGNUP } from "../pages/SignUp/actionTypes";
 import { LOGOUT } from "../components/header/actionTypes";
+import { RESET_AUTH_STATE } from "../components/form/actionTypes";
 
 
 
@@ -111,6 +112,14 @@ export const useAuth = () => {
       });
     }
   }, [authProcess]);
+    
+    const handleStateReset = useCallback(() => {
+        setAuthProcess({
+            status: AUTH_STATUS.IDLE,
+            user: null,
+            error:null
+        })
+    },[])
 
   const onAuthAction = useCallback(
     (action: AuthActions) => {
@@ -123,12 +132,15 @@ export const useAuth = () => {
           break;
         case LOGOUT:
           handleLogout();
-          break;
+            break;
+          case RESET_AUTH_STATE:
+            handleStateReset()
+            break;
         default:
           throw new Error("Unknown auth action");
       }
     },
-    [handleLogin, handleLogout, handleSignup]
+    [handleLogin, handleLogout, handleSignup, handleStateReset]
   );
 
   return {
@@ -136,13 +148,3 @@ export const useAuth = () => {
     onAuthAction,
   };
 };
-
-/*
-
-state structure 
-
-status: IDLE,LOGIN_START,LOGIN_SUCCESS,LOGIN_FAIL,SIGNUP_START,SIGNUP_SUCCESS,SIGNUP_FAIL
-user:UserType | null;
-error: string | null;
-
-*/

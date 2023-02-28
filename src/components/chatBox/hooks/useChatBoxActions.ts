@@ -1,5 +1,5 @@
 // libs
-import { useState, useLayoutEffect, useRef, KeyboardEvent, useCallback, useMemo } from "react";
+import { useState, useLayoutEffect, KeyboardEvent, useCallback, useMemo, useRef} from "react";
 import { v4 as uuidv4 } from "uuid";
 
 // actions 
@@ -19,22 +19,26 @@ export const useChatBoxActions = (
 ) => {
   
   const [currentMessage, setCurrentMessage] = useState("");
-  
   const activeChatUserName = useMemo(() => getUserNameFromId(activeChatId),[activeChatId])
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useLayoutEffect(() => {
+    messagesEndRef?.current?.scrollIntoView(false);
+  }, [activeMessages?.length]);
+
+
   const onSend = useCallback(() => {
     if (user) {
-      onAction({
+        onAction({
       type: SEND_MESSAGE,
       payload: {
         id: uuidv4(),
         content: currentMessage,
         from: user.id,
         to:activeChatId,
-      },
+      },  
     });
-    setCurrentMessage("");
+      setCurrentMessage("");
     }
   },[activeChatId, currentMessage, onAction, user]);
 
@@ -47,9 +51,7 @@ export const useChatBoxActions = (
     },[currentMessage, onSend]);
 
   
-  useLayoutEffect(() => {
-    messagesEndRef?.current?.scrollIntoView();
-  }, [activeMessages]);
+  
 
 
 

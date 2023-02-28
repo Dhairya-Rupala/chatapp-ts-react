@@ -5,7 +5,7 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
 
 // utils 
-import { getFriendsList, getActiveMessages,updateLocalStorage } from "../utils/chatUtils";
+import { getFriendsList, getActiveMessages,updateLocalStorage,pollLocalStorageMessages } from "../utils/chatUtils";
 
 // types 
 import { MessageType,ChatActions } from "../types";
@@ -13,8 +13,6 @@ import { MessageType,ChatActions } from "../types";
 // actions 
 import { SEND_MESSAGE } from "../components/chatBox/actionTypes";
 import { CHANGE_ACTIVE_CHAT } from "../components/chatList/actionTypes";
-
-
 
 
 export const useExtendedChatActions = () => {
@@ -28,6 +26,18 @@ export const useExtendedChatActions = () => {
         }
         return []
     }, [user])
+
+
+    useEffect(() => {
+        let interval:any;
+        interval = setInterval(() => {
+            let updatedMessages = pollLocalStorageMessages(user, activeChatId)
+            setActiveMessages(updatedMessages);
+        }, 1000);
+        return () => {
+            clearInterval(interval)
+        }
+    },[activeChatId, user])
 
 
     useEffect(() => {

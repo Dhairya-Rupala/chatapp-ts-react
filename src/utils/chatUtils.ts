@@ -109,3 +109,12 @@ export function updateLocalStorage(
     }
   }
 }
+
+
+export function pollLocalStorageMessages(user: UserType | null, activeChatId: string) {
+    if (user) {
+        return getActiveMessages(user.id, activeChatId);
+    }
+    else return [];
+}
+

@@ -22,6 +22,6 @@ export const SignUp = ({ onAuthAction,error }: SignUpProps) => {
         })
     }, [onAuthAction])
     return (
-        <Form title="Sign Up" onSubmit={handleSignUp} footerMessage="Already have an account? Log In" route="login" error={error} />
+        <Form title="Sign Up" onSubmit={handleSignUp} footerMessage="Already have an account? Log In" redirectRoute="login" error={error} onAuthAction={onAuthAction} />
     )
 }
