@@ -1,47 +1,42 @@
-// libs 
+// libs
 import { useEffect } from "react";
 
-// components 
+// components
 import { Layout } from "../../components/layout";
 import { ChatList } from "../../components/chatList";
 import { Header } from "../../components/header";
 import { ChatBox } from "../../components/chatBox";
 
-
 // hooks
-import { useExtendedChatActions } from "../../hooks/useChatActions";
+import { useChatActions } from "../../hooks/useChatActions";
 
 // types 
-import { HomeProps } from "./types";
+import { onAuthActionType } from "../../types";
 
-// dummy data 
-import { Users, Messages, PersonalChats,CurrentUser } from "../../dummy_data";
+
+type HomeProps = {
+    onAuthAction:onAuthActionType
+}
 
 
 export const Home = ({ onAuthAction }: HomeProps) => {
-    const { activeChatId, activeMessages, friendList, onAction } = useExtendedChatActions();
+  const { activeChatId, activeMessages, onAction } = useChatActions();
 
-  //   useEffect(() => {
-  //   window.localStorage.setItem("Users", JSON.stringify(Users));
-  //   window.localStorage.setItem("Messages", JSON.stringify(Messages));
-  //     window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
-  // },[])
-    
-    return (
-        <Layout>
-        <Layout.Slot name="header">
-          <Header onAuthAction={onAuthAction}/>
+  return (
+    <Layout>
+      <Layout.Slot name="header">
+        <Header onAuthAction={onAuthAction} />
       </Layout.Slot>
       <Layout.Slot name="leftPanel">
-         <ChatList friendList={friendList} onAction={onAction} activeChatId={activeChatId}/>
+        <ChatList onAction={onAction} activeChatId={activeChatId} />
       </Layout.Slot>
       <Layout.Slot name="rightPanel">
-          <ChatBox
-            activeChatId={activeChatId}
-            activeMessages={activeMessages}
-            onAction={onAction}
-          />
-        </Layout.Slot>
-      </Layout>
-    )
-}
+        <ChatBox
+          activeChatId={activeChatId}
+          activeMessages={activeMessages}
+          onAction={onAction}
+        />
+      </Layout.Slot>
+    </Layout>
+  );
+};

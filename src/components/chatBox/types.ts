@@ -19,8 +19,5 @@ export type SendMessage = {
 
 export type ChangeActiveMessages = {
     type: typeof CHANGE_ACTIVE_MESSAGES,
-    payload: {
-        start: number,
-        end:number
-    }
+    payload: number
 }

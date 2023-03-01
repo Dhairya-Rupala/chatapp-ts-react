@@ -4,6 +4,7 @@ import styles from "./ChatListItem.module.css";
 import { ChatListItemProps } from "./types";
 import { CHANGE_ACTIVE_CHAT } from "./actionTypes";
 
+//TODO: acccept onCLick
 export const ChatListItem = ({ chat, isActive, onAction }: ChatListItemProps) => {
   return (
     <div

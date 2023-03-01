@@ -1,68 +1,87 @@
 // libs
-import { useState, useLayoutEffect, KeyboardEvent, useCallback, useMemo, useRef} from "react";
+import {
+  useState,
+  KeyboardEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+  MouseEvent
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 
-// actions 
-import { SEND_MESSAGE } from "../actionTypes";
+// hooks
+import { useIntersectionObserver } from "./useIntersectionObserver";
+
+// actions
+import { SEND_MESSAGE, CHANGE_ACTIVE_MESSAGES } from "../actionTypes";
 
 // types
-import { MessageType,onActionType,UserType } from "../../../types";
+import { MessageType, onActionType, UserType } from "../../../types";
 
-// utils 
-import { getUserNameFromId } from "../../../utils/chatUtils"
+// utils
+import { getUserNameFromId } from "../../../utils/chatUtils";
 
 export const useChatBoxActions = (
   activeMessages: MessageType[] | null,
   activeChatId: string,
   onAction: onActionType,
-  user:UserType | null
+  user: UserType | null
 ) => {
-  
   const [currentMessage, setCurrentMessage] = useState("");
-  const activeChatUserName = useMemo(() => getUserNameFromId(activeChatId),[activeChatId])
+
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // TODO: Triggers the scroll event 
-  useLayoutEffect(() => {
-    messagesEndRef?.current?.scrollIntoView(false);
-  }, [activeMessages?.length]);
-
-
-  const onSend = useCallback(() => {
-    if (user) {
-        onAction({
-      type: SEND_MESSAGE,
-      payload: {
-        id: uuidv4(),
-        content: currentMessage,
-        from: user.id,
-        to:activeChatId,
-      },  
+  const fetchMoreMessages = useCallback(() => {
+    onAction({
+      type: CHANGE_ACTIVE_MESSAGES,
+      payload: 5,
     });
-      setCurrentMessage("");
-    }
-  },[activeChatId, currentMessage, onAction, user]);
+  }, [onAction]);
 
-  const enterPressHandler = useCallback((event:KeyboardEvent) => {
-    if (event.code === "Enter" && !event.shiftKey) {
-        if (currentMessage.trim() !== "") {
-          onSend()
+  const { targetRef: messageLoaderRef, rootRef: messageWrapperRef } =
+    useIntersectionObserver({ callback: fetchMoreMessages });
+
+  const handleSend = useCallback(
+    (e: KeyboardEvent | MouseEvent) => {
+      const sendMessage = () => {
+        if (user) {
+          onAction({
+            type: SEND_MESSAGE,
+            payload: {
+              id: uuidv4(),
+              content: currentMessage,
+              from: user.id,
+              to: activeChatId,
+            },
+          });
+          setCurrentMessage("");
         }
+      };
+      if ("code" in e) {
+        if (e.code === "Enter" && !e.shiftKey && currentMessage.trim() !== "") {
+          sendMessage()
+        }
+      } else {
+        sendMessage()
       }
-    },[currentMessage, onSend]);
+    },
+    [activeChatId, currentMessage, onAction, user]
+  );
 
-  
-  
-
+  // TODO: Handled on the separate message
+  // useLayoutEffect(() => {
+  //   messagesEndRef?.current?.scrollIntoView(false);
+  // }, [activeMessages?.length]);
 
 
   return {
     currentMessage,
     setCurrentMessage,
-    onSend,
-    user,
+    handleSend,
     messagesEndRef,
-    enterPressHandler,
-    activeChatUserName
+    messageLoaderRef,
+    messageWrapperRef,
   };
 };

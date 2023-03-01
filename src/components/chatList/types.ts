@@ -1,7 +1,6 @@
-import {UserType,onActionType} from "../../types"
+import {onActionType} from "../../types"
     
 export type ChatListProps = {
-    friendList: UserType[],
     activeChatId:string,
     onAction: onActionType
 }

@@ -1,5 +1,6 @@
 // libs 
 import { Routes, Route } from "react-router-dom"
+import { useEffect } from "react";
 
 // components 
 import { Login } from "./pages/Login";
@@ -7,8 +8,10 @@ import { Home } from "./pages/Home";
 import { SignUp } from "./pages/SignUp";
 
 // hooks
-import {useUser} from "./contexts/UserContext"
+import { useUser } from "./contexts/UserContext"
 
+// dummy data 
+import { Users, Messages, PersonalChats,CurrentUser } from "./dummy_data";
 
 // styles
 import "./styles.css";
@@ -16,7 +19,8 @@ import "./styles.css";
 
 
 export default function App() {
-  const { user,error, onAuthAction } = useUser()
+  const { user, error, onAuthAction } = useUser()
+  
   return (
     <div className="App">
       <Routes>
@@ -27,3 +31,10 @@ export default function App() {
     </div>
   );
 }
+
+// Snippet for the data fetching
+//  useEffect(() => {
+  //   window.localStorage.setItem("Users", JSON.stringify(Users));
+  //   window.localStorage.setItem("Messages", JSON.stringify(Messages));
+  //     window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
+  // },[])
