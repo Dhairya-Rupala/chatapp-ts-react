@@ -9,7 +9,7 @@ import { ChatBox } from "../../components/chatBox";
 
 
 // hooks
-import { useExtendedChatActions } from "../../hooks/useExtendedChatActions";
+import { useExtendedChatActions } from "../../hooks/useChatActions";
 
 // types 
 import { HomeProps } from "./types";
@@ -25,7 +25,6 @@ export const Home = ({ onAuthAction }: HomeProps) => {
   //   window.localStorage.setItem("Users", JSON.stringify(Users));
   //   window.localStorage.setItem("Messages", JSON.stringify(Messages));
   //     window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
-  //     window.localStorage.setItem("CurrentUser", JSON.stringify(CurrentUser));
   // },[])
     
     return (

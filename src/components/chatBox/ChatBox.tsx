@@ -1,5 +1,5 @@
 // libs 
-import { ChangeEvent, useCallback,KeyboardEvent } from "react";
+import { ChangeEvent, useCallback,KeyboardEvent,UIEvent } from "react";
 // components
 import { Message } from "./components/message";
 import { Button } from "../button"
@@ -11,6 +11,8 @@ import { useUser } from "../../contexts/UserContext";
 import styles from "./ChatBox.module.css";
 // types
 import { ChatBoxProps } from "./types";
+import { CHANGE_ACTIVE_MESSAGES } from "./actionTypes";
+import { useEffect } from "react";
 
 
 
@@ -34,13 +36,36 @@ export const ChatBox = ({ activeChatId, activeMessages, onAction }: ChatBoxProps
   const handleEnterKeyDown = useCallback((e:KeyboardEvent<HTMLInputElement>) => {
     enterPressHandler(e);
   }, [enterPressHandler]);
+
+
+  const handleScroll = useCallback((e: UIEvent<HTMLDivElement>) => {
+    // const scrollTop = (e.target as HTMLDivElement).scrollTop;
+    // const { height } = (e.target as HTMLDivElement).getBoundingClientRect();
+
+    // const approxMessageHeight = 70;
+    // const startIndex = Math.round(scrollTop / approxMessageHeight);
+    // const endIndex = startIndex + Math.round(height / approxMessageHeight);
+
+    // console.log("here",e.isTrusted)
+    
+    // onAction({
+    //   type: CHANGE_ACTIVE_MESSAGES,
+    //   payload: {
+    //     start: startIndex,
+    //     end:endIndex
+    //   }
+    // })
+    
+  }, [onAction])
+
   
+  //TODO: How to set the latest active messages on the mount 
 
   
   return (
     <div className={styles.wrapper}>
       {activeChatId?<><div className={styles.currentChatName}>{ activeChatUserName}</div>
-      <div className={styles.chatWrapper}>
+        <div className={styles.chatWrapper} onScroll={handleScroll}>
         {activeMessages?.map((message, index) => (
           <Message
             content={message.content}

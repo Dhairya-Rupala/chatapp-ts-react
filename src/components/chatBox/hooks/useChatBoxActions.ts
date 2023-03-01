@@ -22,6 +22,7 @@ export const useChatBoxActions = (
   const activeChatUserName = useMemo(() => getUserNameFromId(activeChatId),[activeChatId])
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // TODO: Triggers the scroll event 
   useLayoutEffect(() => {
     messagesEndRef?.current?.scrollIntoView(false);
   }, [activeMessages?.length]);

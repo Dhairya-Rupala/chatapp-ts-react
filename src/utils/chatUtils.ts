@@ -118,3 +118,27 @@ export function pollLocalStorageMessages(user: UserType | null, activeChatId: st
     else return [];
 }
 
+
+
+// dummy util 
+export function getPartialActiveMessages(currentUserId: string, activeChatId: string,start:number,end:number) {
+  const stringifiedPersonalChats = window.localStorage.getItem("PersonalChats");
+  const stringifiedMessages = window.localStorage.getItem("Messages");
+
+  if (
+    typeof stringifiedPersonalChats === "string" &&
+    typeof stringifiedMessages === "string"
+  ) {
+    const personalChats: PersonalChatsType = JSON.parse(
+      stringifiedPersonalChats
+    );
+    const messages: MessagesType = JSON.parse(stringifiedMessages);
+    const compositeKey = getCompositeKey(currentUserId, activeChatId);
+    const messageIds = personalChats?.[compositeKey]?.messages;
+    const activeMessages = messageIds?.map(
+      (messageId) => messages?.[messageId]
+    );
+    return activeMessages.slice(Math.max(0,start),Math.min(end,activeMessages.length-1));
+  }
+  return [];
+}

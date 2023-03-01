@@ -5,13 +5,13 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
 
 // utils 
-import { getFriendsList, getActiveMessages,updateLocalStorage,pollLocalStorageMessages } from "../utils/chatUtils";
+import { getFriendsList, getActiveMessages,updateLocalStorage,pollLocalStorageMessages,getPartialActiveMessages } from "../utils/chatUtils";
 
 // types 
 import { MessageType,ChatActions } from "../types";
 
 // actions 
-import { SEND_MESSAGE } from "../components/chatBox/actionTypes";
+import { SEND_MESSAGE,CHANGE_ACTIVE_MESSAGES } from "../components/chatBox/actionTypes";
 import { CHANGE_ACTIVE_CHAT } from "../components/chatList/actionTypes";
 
 
@@ -40,12 +40,13 @@ export const useExtendedChatActions = () => {
     },[activeChatId, user])
 
 
+    //TODO: will be downlifted into the chatBox component as we are lazy loading the messages 
     useEffect(() => {
         if(user)
             setActiveMessages(getActiveMessages(user.id, activeChatId));
         else
             setActiveMessages([])
-    }, [activeChatId, user, user?.id])
+    }, [activeChatId, user])
 
 
     const onAction = useCallback((action: ChatActions) => {
@@ -57,6 +58,13 @@ export const useExtendedChatActions = () => {
                 break;
             case CHANGE_ACTIVE_CHAT:
                 setActiveChatId(action.payload);
+                break;
+            
+            //TODO: action for fetching the partial messages
+            case CHANGE_ACTIVE_MESSAGES:
+                const start = action.payload.start;
+                const end = action.payload.end;
+                setActiveMessages(getPartialActiveMessages(user.id,activeChatId,start,end))
                 break;
             default:
                 throw new Error(`${action.type} is not supported`)

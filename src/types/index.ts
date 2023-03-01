@@ -1,12 +1,12 @@
 import { ChangeActiveChat } from "../components/chatList/types"
 import { AddNewUser } from "../components/header/types"
-import { SendMessage } from "../components/chatBox/types"
+import { SendMessage,ChangeActiveMessages } from "../components/chatBox/types"
 import { SignUp } from "../pages/SignUp/types"
 import { LogIn } from "../pages/Login/types"
 import { LogOut } from "../components/header/types"
 import { ResetAuthState } from "../components/form/types"
 
-export type ChatActions = SendMessage | AddNewUser | ChangeActiveChat 
+export type ChatActions = SendMessage | AddNewUser | ChangeActiveChat | ChangeActiveMessages
 export type AuthActions = SignUp | LogIn | LogOut | ResetAuthState
 
 export type onActionType = (args: ChatActions) => void;
