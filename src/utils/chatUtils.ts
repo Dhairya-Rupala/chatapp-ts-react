@@ -30,14 +30,14 @@ export function getFriendsList(
   const stringifiedUsers = window.localStorage.getItem("Users");
   if (typeof stringifiedUsers === "string") {
     const users: UsersType = JSON.parse(stringifiedUsers);
-    const friends = currentUserPersonalChats.map((personalChatId) => {
-      const friendId = getFriendIdFromCompositeKey(
-        curentUserId,
-        personalChatId
-      );
-      return users?.[friendId];
-    });
-    return friends;
+      const friends = currentUserPersonalChats.map((personalChatId) => {
+        const friendId = getFriendIdFromCompositeKey(
+          curentUserId,
+          personalChatId
+        );
+        return users[friendId];
+      });
+      return friends;
   }
   return [];
 }
@@ -55,9 +55,9 @@ export function getActiveMessages(currentUserId: string, activeChatId: string) {
     );
     const messages: MessagesType = JSON.parse(stringifiedMessages);
     const compositeKey = getCompositeKey(currentUserId, activeChatId);
-    const messageIds = personalChats?.[compositeKey]?.messages;
-    const activeMessages = messageIds?.map(
-      (messageId) => messages?.[messageId]
+    const messageIds = personalChats[compositeKey].messages;
+    const activeMessages = messageIds.map(
+      (messageId) => messages[messageId]
     );
     return activeMessages;
   }
@@ -68,19 +68,17 @@ export function getUserNameFromId(userId: string) {
   const stringifiedUsers = window.localStorage.getItem("Users");
   if (typeof stringifiedUsers === "string") {
     const users: UsersType = JSON.parse(stringifiedUsers);
-    return users[userId]?.name;
+    return users[userId]?.name || "";
   }
-  return null;
+  return "";
 }
 
 export function updateLocalStorage(
-  user: UserType | null,
+  user: UserType,
   activeChatId: string,
   newMessage: MessageType
 ) {
-  if (user) {
-    const stringifiedPersonalChats =
-      window.localStorage.getItem("PersonalChats");
+    const stringifiedPersonalChats = window.localStorage.getItem("PersonalChats");
     const stringifiedMessages = window.localStorage.getItem("Messages");
 
     if (
@@ -93,59 +91,53 @@ export function updateLocalStorage(
         stringifiedPersonalChats
       );
 
-      if (messages) {
-        messages[newMessage.id] = newMessage;
-      }
-      if (personalChats) {
-        personalChats[personalChatId].messages.push(newMessage.id);
-      }
+      messages[newMessage.id] = newMessage;
+      personalChats[personalChatId].messages.push(newMessage.id);
 
-      // updating the storage
       window.localStorage.setItem("Messages", JSON.stringify(messages));
       window.localStorage.setItem(
         "PersonalChats",
         JSON.stringify(personalChats)
       );
     }
-  }
+}
+
+export function pollLocalStorageMessages(
+  user: UserType,
+  activeChatId: string
+) {
+  return getActiveMessages(user.id, activeChatId);
 }
 
 
-export function pollLocalStorageMessages(user: UserType | null, activeChatId: string) {
-    if (user) {
-        return getActiveMessages(user.id, activeChatId);
-    }
-    else return [];
-}
-
-
-
-// dummy util 
-export function getPartialActiveMessages(currentUserId: string | undefined, activeChatId: string,messageCount:number,alreadyFetched:number) {
+export function getPartialActiveMessages(
+  currentUserId: string,
+  activeChatId: string,
+  messageCount: number,
+  alreadyFetched: number
+) {
   const stringifiedPersonalChats = window.localStorage.getItem("PersonalChats");
   const stringifiedMessages = window.localStorage.getItem("Messages");
 
   if (
     typeof stringifiedPersonalChats === "string" &&
-    typeof stringifiedMessages === "string" &&
-    currentUserId
+    typeof stringifiedMessages === "string"
   ) {
     const personalChats: PersonalChatsType = JSON.parse(
       stringifiedPersonalChats
     );
     const messages: MessagesType = JSON.parse(stringifiedMessages);
-    
-    const compositeKey = getCompositeKey(currentUserId, activeChatId);
-    const messageIds = personalChats?.[compositeKey]?.messages;
-    const activeMessages = messageIds?.map(
-      (messageId) => messages?.[messageId]
-    );
 
-    if (activeMessages) {
-      const end = Math.max(activeMessages.length - alreadyFetched, 0)
+    const compositeKey = getCompositeKey(currentUserId, activeChatId);
+    const messageIds = personalChats[compositeKey].messages;
+    const activeMessages = messageIds.map(
+      (messageId) => messages[messageId]
+    );
+      const end = Math.max(activeMessages.length - alreadyFetched, 0);
       const start = Math.max(0, end - messageCount);
-      return activeMessages.slice(start, end)
-    }
+      return activeMessages.slice(start, end);
   }
   return [];
 }
+
+

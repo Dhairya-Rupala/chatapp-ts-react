@@ -6,31 +6,29 @@ import {
   useMemo,
   useRef,
   useEffect,
-  MouseEvent
+  MouseEvent,
+  ChangeEvent
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 // hooks
-import { useIntersectionObserver } from "./useIntersectionObserver";
+import { useIntersectionObserver } from "../../../../../hooks/useIntersectionObserver";
+
+// utils 
+import { getMessageCreationDetails } from "../utils";
 
 // actions
-import { SEND_MESSAGE, CHANGE_ACTIVE_MESSAGES } from "../actionTypes";
+import { SEND_MESSAGE, CHANGE_ACTIVE_MESSAGES } from "../../../actionTypes";
 
 // types
-import { MessageType, onActionType, UserType } from "../../../types";
-
-// utils
-import { getUserNameFromId } from "../../../utils/chatUtils";
+import { onActionType, UserType } from "../../../../../types";
 
 export const useChatBoxActions = (
-  activeMessages: MessageType[] | null,
   activeChatId: string,
   onAction: onActionType,
   user: UserType | null
 ) => {
   const [currentMessage, setCurrentMessage] = useState("");
-
-  
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const fetchMoreMessages = useCallback(() => {
@@ -40,13 +38,16 @@ export const useChatBoxActions = (
     });
   }, [onAction]);
 
+  
   const { targetRef: messageLoaderRef, rootRef: messageWrapperRef } =
     useIntersectionObserver({ callback: fetchMoreMessages });
 
+  
   const handleSend = useCallback(
-    (e: KeyboardEvent | MouseEvent) => {
+    (e: any) => {
       const sendMessage = () => {
         if (user) {
+          const {timestamp,creationDate} = getMessageCreationDetails()
           onAction({
             type: SEND_MESSAGE,
             payload: {
@@ -54,6 +55,9 @@ export const useChatBoxActions = (
               content: currentMessage,
               from: user.id,
               to: activeChatId,
+              creationDate,
+              timestamp
+
             },
           });
           setCurrentMessage("");
@@ -70,15 +74,14 @@ export const useChatBoxActions = (
     [activeChatId, currentMessage, onAction, user]
   );
 
-  // TODO: Handled on the separate message
-  // useLayoutEffect(() => {
-  //   messagesEndRef?.current?.scrollIntoView(false);
-  // }, [activeMessages?.length]);
+  const handleCurrentMessageChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+    setCurrentMessage(e.target.value)
+  },[])
 
 
   return {
     currentMessage,
-    setCurrentMessage,
+    handleCurrentMessageChange,
     handleSend,
     messagesEndRef,
     messageLoaderRef,

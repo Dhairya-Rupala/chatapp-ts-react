@@ -1,14 +1,14 @@
 // libs 
-import React from "react"
+import {ReactNode} from "react"
 
 // types 
 import { onAuthActionType,AuthProcessType } from "../types";
 
 export type UserProviderProps = {
-    children:React.ReactNode
+    children:ReactNode
 }
 
 
 export type UserContextType = (AuthProcessType & {
-  onAuthAction:onAuthActionType
+  onAuthAction:onAuthActionType,
 }) | null

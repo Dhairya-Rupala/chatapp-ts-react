@@ -1,8 +1,18 @@
+// libs 
+import { ReactNode } from "react";
+
 // styles
 import styles from "./Button.module.css";
 
-// types 
-import { ButtonProps } from "./types";
+
+type ButtonProps = {
+    children: ReactNode,
+    onClick: (e:any)=>void,
+    disabled?: boolean,
+    overrides?: {
+        [property:string]:string
+    }
+}
 
 export const Button = ({
   children,

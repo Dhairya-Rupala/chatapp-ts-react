@@ -32,14 +32,12 @@ export const useAuth = () => {
     let stringifiedCurrentUser = window.sessionStorage.getItem("CurrentUser");
     if (typeof stringifiedCurrentUser === "string") {
       const currentUser: UserType = JSON.parse(stringifiedCurrentUser);
-      if (currentUser) {
         setAuthProcess({
           status: AUTH_STATUS.LOGIN_SUCCESS,
           user: currentUser,
           error: null,
         });
       }
-    }
   }, []);
 
   const handleLogin = useCallback(

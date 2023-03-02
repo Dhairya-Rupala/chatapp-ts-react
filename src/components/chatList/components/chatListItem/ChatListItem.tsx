@@ -14,16 +14,16 @@ export const ChatListItem = ({ chat, isActive, onAction }: ChatListItemProps) =>
       onClick={() => {
         onAction({
           type: CHANGE_ACTIVE_CHAT,
-          payload: chat?.id,
+          payload: chat.id,
         });
       }}
     >
       <img
-        src={chat?.profilePicture}
+        src={chat.profilePicture}
         alt="profile"
         className={styles.chatListItemAvatar}
       />
-      <span>{chat?.name}</span>
+      <span>{chat.name}</span>
     </div>
   );
 };

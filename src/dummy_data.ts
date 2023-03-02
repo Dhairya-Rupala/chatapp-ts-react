@@ -165,6 +165,7 @@
 
 // Normalaization of the data
 
+import { getMessageCreationDetails } from "./components/chatBox/components/chatBoxBody/utils";
 import { UsersType,MessagesType,PersonalChatsType,UserType } from "./types"
 
 // export const _users = {
@@ -207,6 +208,9 @@ import { UsersType,MessagesType,PersonalChatsType,UserType } from "./types"
 //     }
 // }
 
+
+
+const { timestamp, creationDate } = getMessageCreationDetails();
 
 export const CurrentUser:UserType = {
     id: "1",
@@ -265,37 +269,54 @@ export const Messages: MessagesType = {
         id: "1",
         content: "Hii",
         from: "1",
-        to:"2"
+        to: "2",
+        timestamp,
+        creationDate
     },
     2: {
         id: "2",
         content: "Hii",
         from: "2",
-        to:"1"
+        to: "1",
+        timestamp,
+        creationDate
+        
     },
     3: {
         id: "3",
         content: "Yo bro",
         from: "1",
-        to:"3"
+        to: "3",
+        timestamp,
+        creationDate
+        
     },
     4: {
         id: "4",
         content: "Hey, wasup?",
         from: "3",
-        to:"1"
+        to: "1",
+        timestamp,
+        creationDate
+        
     },
     5: {
         id: "5",
         content: "Hey...",
         from: "1",
-        to:"5"
+        to: "5",
+        timestamp,
+        creationDate
+       
     },
     6: {
         id: "6",
         content: "Let's go home!!!",
         from: "1",
-        to:"2"
+        to: "2",
+        timestamp,
+        creationDate
+        
     }
 }
 

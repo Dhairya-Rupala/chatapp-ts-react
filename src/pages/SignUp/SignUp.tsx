@@ -12,7 +12,7 @@ import { SIGNUP } from "./actionTypes";
 
 
 export const SignUp = ({ onAuthAction,error }: SignUpProps) => {
-    const handleSignUp = useCallback((username:any,password:any) => {
+    const handleSignUp = useCallback((username:string,password:string) => {
         onAuthAction({
             type: SIGNUP,
             payload: {

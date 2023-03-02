@@ -1,12 +1,11 @@
 import { ChangeActiveChat } from "../components/chatList/types"
-import { AddNewUser } from "../components/header/types"
 import { SendMessage,ChangeActiveMessages } from "../components/chatBox/types"
 import { SignUp } from "../pages/SignUp/types"
 import { LogIn } from "../pages/Login/types"
 import { LogOut } from "../components/header/types"
 import { ResetAuthState } from "../components/form/types"
 
-export type ChatActions = SendMessage | AddNewUser | ChangeActiveChat | ChangeActiveMessages
+export type ChatActions = SendMessage  | ChangeActiveChat | ChangeActiveMessages
 export type AuthActions = SignUp | LogIn | LogOut | ResetAuthState
 
 export type onActionType = (args: ChatActions) => void;
@@ -17,16 +16,18 @@ export type UserType = {
     id: string,
     name: string,
     profilePicture: string,
-    password:string,
+    password: string,
     personalChats: string[],
-    groupChats:string[]
-}
+    groupChats: string[]
+};
 
 export type MessageType = {
     id: string,
     content: string,
     from: string,
-    to:string
+    to: string,
+    creationDate: string,
+    timestamp:string,
 }
 
 export type PersonalChatType = {
@@ -43,8 +44,9 @@ export type GroupChatType = {
 }
 
 export type UsersType = {
-    [id:string]:UserType
+    [id: string]: UserType
 }
+
 
 export type MessagesType = {
     [id:string]:MessageType

@@ -10,7 +10,6 @@ import { HeaderProps } from "./types";
 import { LOGOUT } from "./actionTypes";
 
 export const Header = ({ onAuthAction }: HeaderProps) => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogOut = useCallback(() => {
     onAuthAction({
@@ -30,7 +29,6 @@ export const Header = ({ onAuthAction }: HeaderProps) => {
         </Button>
         <Profile />
       </div>
-        {/* <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} onAction={onAction} /> */}
     </>
   );
 };

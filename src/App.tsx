@@ -20,6 +20,12 @@ import "./styles.css";
 
 export default function App() {
   const { user, error, onAuthAction } = useUser()
+
+  //  useEffect(() => {
+  //   window.localStorage.setItem("Users", JSON.stringify(Users));
+  //   window.localStorage.setItem("Messages", JSON.stringify(Messages));
+  //     window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
+  // },[])
   
   return (
     <div className="App">
@@ -33,8 +39,3 @@ export default function App() {
 }
 
 // Snippet for the data fetching
-//  useEffect(() => {
-  //   window.localStorage.setItem("Users", JSON.stringify(Users));
-  //   window.localStorage.setItem("Messages", JSON.stringify(Messages));
-  //     window.localStorage.setItem("PersonalChats", JSON.stringify(PersonalChats));
-  // },[])

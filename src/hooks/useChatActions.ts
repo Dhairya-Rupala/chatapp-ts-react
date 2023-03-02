@@ -1,13 +1,11 @@
 // libs
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 // hooks
 import { useUser } from "../contexts/UserContext";
 
 // utils
 import {
-  getFriendsList,
-  getActiveMessages,
   updateLocalStorage,
   pollLocalStorageMessages,
   getPartialActiveMessages,
@@ -49,8 +47,8 @@ export const useChatActions = () => {
         case SEND_MESSAGE:
           const updatedActiveMessages = [...activeMessages, action.payload];
           setActiveMessages(updatedActiveMessages);
-          updateLocalStorage(user, activeChatId, action.payload);
-              break;
+          if(user) updateLocalStorage(user, activeChatId, action.payload);
+          break;
           
         case CHANGE_ACTIVE_CHAT:
           setActiveChatId(action.payload);
@@ -61,17 +59,19 @@ export const useChatActions = () => {
           break;
 
         case CHANGE_ACTIVE_MESSAGES:
-          const data = getPartialActiveMessages(
-            user?.id,
+          if(user)
+          {
+            const data = getPartialActiveMessages(
+            user.id,
             activeChatId,
             action.payload,
             activeMessages.length
           );
           setActiveMessages([...data, ...activeMessages]);
+          }
               break;
-        
         default:
-          throw new Error(`${action.type} is not supported`);
+          throw new Error(`Action is not supported`);
       }
     },
     [activeChatId, activeMessages, user]

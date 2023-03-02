@@ -30,7 +30,7 @@ export const ChatList = ({ activeChatId, onAction }: ChatListProps) => {
 
   return (
     <div className={styles.wrapper}>
-      {friendList?.map((chat, index) => (
+      {friendList.map((chat, index) => (
         <ChatListItem key={index} chat={chat} isActive={activeChatId===chat.id} onAction={onAction} />
       ))}
     </div>

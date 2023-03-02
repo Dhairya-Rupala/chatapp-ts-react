@@ -17,10 +17,29 @@
     color: white;
 }
 
+.messageHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
 
 .sender{
     font-size: 1.1rem;
     font-weight: 600;
+}
+
+.creationDetailsWrapper{
+    display: flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 300;
+    gap: 10px;
+    color: rgb(233, 231, 231);
+}
+
+.creationDetailsWrapper[data-color="grey"]{
+    color: grey;
 }
 
 .content{
