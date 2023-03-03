@@ -1,23 +1,24 @@
 // types 
-import { onActionType,MessageType } from "../../types";
+import { Message } from "../../types";
+import { onActionType } from "../../hooks/useChatActions/types";
 
 // actions
-import { SEND_MESSAGE,CHANGE_ACTIVE_MESSAGES } from "./actionTypes";
+import { SEND_MESSAGE,FETCH_MESSAGES } from "./actionTypes";
 
 
 export type ChatBoxProps = {
-    activeChatId: string,
-    activeMessages: MessageType[] | null,
+    activeChatRoomId: string,
+    activeMessages: Message[],
     onAction: onActionType
 }
 
 export type SendMessage = {
     type: typeof SEND_MESSAGE,
-    payload: MessageType
+    payload: Message
 }
 
 
-export type ChangeActiveMessages = {
-    type: typeof CHANGE_ACTIVE_MESSAGES,
+export type FetchMessages = {
+    type: typeof FETCH_MESSAGES,
     payload: number
 }

@@ -1,5 +1,5 @@
 // libs 
-import { useCallback, ChangeEvent, KeyboardEvent } from "react";
+import { ChangeEvent, KeyboardEvent,MouseEvent } from "react";
 
 // components 
 import { Button } from "../../../../../button";
@@ -11,7 +11,7 @@ import styles from "./MessageInput.module.css";
 type MessageInputProps = {
     currentMessage:string,
     handleCurrentMessageChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    handleSend: (e: KeyboardEvent<Element> | MouseEvent) => void;
+    handleSend: (e: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => void;
 }
 
 

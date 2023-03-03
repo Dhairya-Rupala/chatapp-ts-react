@@ -5,30 +5,31 @@ import { useEffect, RefObject } from "react";
 import { useUser } from "../../../../../../contexts/UserContext";
 
 // styles
-import styles from "./Message.module.css";
+import styles from "./SingleMessage.module.css";
 
-type MessageProps = {
+type SingleMessageProps = {
   content: string;
-  from: {
-    id: string | null;
-    name: string | null;
-  };
   creationDate: string,
   timestamp:string
   messageRef: RefObject<HTMLDivElement> | null;
   isLast: boolean;
+  from: {
+    id: string | undefined;
+    name: string | undefined;
+  };
 };
 
-export const Message = ({
+export const SingleMessage = ({
   isLast,
   content,
   from,
   messageRef,
   creationDate,
   timestamp
-}: MessageProps) => {
+}: SingleMessageProps) => {
   const { user } = useUser();
 
+  // for scrolling behaviour 
   useEffect(() => {
     if (isLast) messageRef?.current?.scrollIntoView(false);
   }, [isLast, messageRef]);

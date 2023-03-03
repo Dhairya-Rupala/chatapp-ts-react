@@ -12,8 +12,8 @@ export const useIntersectionObserver = ({
   callback,
   ...options
 }: IntersectionObserverConfig) => {
-  const targetRef = useRef<HTMLElement>(null);
-  const rootRef = useRef<HTMLElement>(null);
+  const targetRef = useRef<HTMLElement>();
+  const rootRef = useRef<HTMLElement>();
 
   useEffect(() => {
     const targetElement = targetRef.current;
@@ -21,7 +21,9 @@ export const useIntersectionObserver = ({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) callback();
+          if (entry.isIntersecting) {
+            callback()
+          }
         });
       },
       {

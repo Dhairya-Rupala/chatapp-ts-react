@@ -8,11 +8,17 @@ import { Button } from "../button";
 // styles 
 import styles from "./Form.module.css";
 
-// types 
-import { FormProps } from "./types";
-import { RESET_AUTH_STATE } from "./actionTypes";
+type FormProps = {
+    title: string,
+    footerMessage: string,
+    onSubmit: (...args:any)=>void,
+    redirectRoute: string,
+    error: string | null,
+    onPageNavigate: () => void;
+}
 
-export const Form = ({title,footerMessage,redirectRoute,onSubmit,error,onAuthAction}:FormProps) => {
+
+export const Form = ({title,footerMessage,redirectRoute,onSubmit,error,onPageNavigate}:FormProps) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -29,11 +35,8 @@ export const Form = ({title,footerMessage,redirectRoute,onSubmit,error,onAuthAct
     }, [onSubmit, password, username])
     
     const handlePageNavigate = useCallback(() => {
-        onAuthAction({
-            type: RESET_AUTH_STATE,
-            payload:null
-        })
-    },[onAuthAction])
+        onPageNavigate();
+    },[onPageNavigate])
 
 
     return (

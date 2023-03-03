@@ -1,27 +1,16 @@
-// libs 
-import { useCallback } from "react";
-
 // components 
 import { Form } from "../../components/form";
 
-// types 
-import { SignUpProps } from "./types";
-
-// actions 
-import { SIGNUP } from "./actionTypes";
+// hooks
+import { useUser } from "../../contexts/UserContext";
+import { useAuthActions } from "../../contexts/AuthActionsContext";
 
 
-export const SignUp = ({ onAuthAction,error }: SignUpProps) => {
-    const handleSignUp = useCallback((username:string,password:string) => {
-        onAuthAction({
-            type: SIGNUP,
-            payload: {
-                username,
-                password
-            }
-        })
-    }, [onAuthAction])
+
+export const SignUp = () => {
+    const {error} = useUser()
+    const {signup,resetAuthState} = useAuthActions()
     return (
-        <Form title="Sign Up" onSubmit={handleSignUp} footerMessage="Already have an account? Log In" redirectRoute="login" error={error} onAuthAction={onAuthAction} />
+        <Form title="Sign Up" onSubmit={signup} footerMessage="Already have an account? Log In" redirectRoute="login" error={error} onPageNavigate={resetAuthState} />
     )
 }

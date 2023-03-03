@@ -1,10 +1,5 @@
-import React from "react";
+import {ReactNode,ReactElement} from "react";
 
-// export type LayoutProps = {
-//     top: JSX.Element,
-//     left: JSX.Element,
-//     right:JSX.Element
-// }
 
 export const SLOT_NAMES = {
     HEADER: "header",
@@ -15,17 +10,17 @@ export const SLOT_NAMES = {
 
 export interface SlotProps{
     name: string,
-    children?:React.ReactNode
+    children?:ReactNode
 }
 
 export interface LayoutProps{
-    children:React.ReactElement | (React.ReactElement)[]
+    children:ReactElement | (ReactElement)[]
 }
-
 
 export const Slot = (props: SlotProps) => null;
 type SlotType = typeof Slot;
 
-export type LayoutType = ((props: LayoutProps) => React.ReactElement) & {
+
+export type LayoutType = ((props: LayoutProps) => ReactElement) & {
     Slot:SlotType
 }

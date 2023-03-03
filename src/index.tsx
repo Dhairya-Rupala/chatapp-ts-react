@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 // components 
 import App from './App';
 // context 
-import { UserProvider } from './contexts/UserContext';
+import { UserAuthentication } from './components/userAuthentication';
 // styles
 import './index.css';
 
@@ -16,9 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <UserProvider>
+      <UserAuthentication>
        <App />
-    </UserProvider>
+    </UserAuthentication>
     </BrowserRouter>
   </React.StrictMode>
 );

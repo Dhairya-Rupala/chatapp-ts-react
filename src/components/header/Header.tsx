@@ -1,29 +1,22 @@
-// libs
-import { useCallback } from "react";
 // components
 import { Profile } from "./components/profile";
 import { Button } from "../button";
+
+// hooks
+import { useAuthActions } from "../../contexts/AuthActionsContext";
+
 // styles
 import styles from "./Header.module.css";
-// types 
-import { HeaderProps } from "./types";
-import { LOGOUT } from "./actionTypes";
 
-export const Header = ({ onAuthAction }: HeaderProps) => {
 
-  const handleLogOut = useCallback(() => {
-    onAuthAction({
-      type: LOGOUT,
-      payload:null,
-      })
-  },[onAuthAction])
-
+export const Header = () => {
+  const {logout} = useAuthActions()
   return (
     <>
       <div className={styles.wrapper}>
         <span className={styles.title}>Chat App</span>
         <Button
-          onClick={handleLogOut}
+          onClick={logout}
         >
          Log Out
         </Button>

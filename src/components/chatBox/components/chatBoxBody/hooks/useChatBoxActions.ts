@@ -3,11 +3,9 @@ import {
   useState,
   KeyboardEvent,
   useCallback,
-  useMemo,
   useRef,
-  useEffect,
   MouseEvent,
-  ChangeEvent
+  ChangeEvent,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,36 +13,41 @@ import { v4 as uuidv4 } from "uuid";
 import { useIntersectionObserver } from "../../../../../hooks/useIntersectionObserver";
 
 // utils 
-import { getMessageCreationDetails } from "../utils";
+import { getMessageCreationDetails } from "../utils/messageUtils";
 
 // actions
-import { SEND_MESSAGE, CHANGE_ACTIVE_MESSAGES } from "../../../actionTypes";
+import { SEND_MESSAGE, FETCH_MESSAGES } from "../../../actionTypes";
 
 // types
-import { onActionType, UserType } from "../../../../../types";
+import { User } from "../../../../../types";
+import { onActionType } from "../../../../../hooks/useChatActions/types";
+import { getFriendIdFromChatRoomId } from "../../../../../utils/chatUtils";
+
 
 export const useChatBoxActions = (
-  activeChatId: string,
+  activeChatRoomId: string,
   onAction: onActionType,
-  user: UserType | null
+  user: User | null,
 ) => {
   const [currentMessage, setCurrentMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+
   const fetchMoreMessages = useCallback(() => {
     onAction({
-      type: CHANGE_ACTIVE_MESSAGES,
+      type: FETCH_MESSAGES,
       payload: 5,
     });
   }, [onAction]);
 
-  
+
   const { targetRef: messageLoaderRef, rootRef: messageWrapperRef } =
     useIntersectionObserver({ callback: fetchMoreMessages });
-
+  
+  
   
   const handleSend = useCallback(
-    (e: any) => {
+    (e: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => {
       const sendMessage = () => {
         if (user) {
           const {timestamp,creationDate} = getMessageCreationDetails()
@@ -54,7 +57,7 @@ export const useChatBoxActions = (
               id: uuidv4(),
               content: currentMessage,
               from: user.id,
-              to: activeChatId,
+              to: getFriendIdFromChatRoomId(user.id,activeChatRoomId),
               creationDate,
               timestamp
 
@@ -71,7 +74,7 @@ export const useChatBoxActions = (
         sendMessage()
       }
     },
-    [activeChatId, currentMessage, onAction, user]
+    [activeChatRoomId, currentMessage, onAction, user]
   );
 
   const handleCurrentMessageChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {

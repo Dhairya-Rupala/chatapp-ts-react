@@ -1,22 +1,36 @@
+// libs 
+import { useCallback } from "react";
+// utils 
+import { getChatRoomId } from "../../../../utils/chatUtils";
 // styles
 import styles from "./ChatListItem.module.css";
 // types
-import { ChatListItemProps } from "./types";
-import { CHANGE_ACTIVE_CHAT } from "./actionTypes";
+import { User } from "../../../../types";
+import { useUser } from "../../../../contexts/UserContext";
 
-//TODO: acccept onCLick
-export const ChatListItem = ({ chat, isActive, onAction }: ChatListItemProps) => {
+
+type ChatListItemProps = {
+    chat: User,
+    isActive:boolean,
+    onItemClick: (id:string)=>void,
+}
+
+
+export const ChatListItem = ({ chat, isActive, onItemClick }: ChatListItemProps) => {
+
+  const { user } = useUser();
+  const handleChatListItemClick = useCallback(() => {
+    if (user) {
+      onItemClick(getChatRoomId(user.id, chat.id));
+    }
+  }, [chat.id, onItemClick, user])
+  
   return (
     <div
       className={`${styles.wrapper} ${
         isActive ? styles.active : ""
       }`}
-      onClick={() => {
-        onAction({
-          type: CHANGE_ACTIVE_CHAT,
-          payload: chat.id,
-        });
-      }}
+      onClick={handleChatListItemClick}
     >
       <img
         src={chat.profilePicture}

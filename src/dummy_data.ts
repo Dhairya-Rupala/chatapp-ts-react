@@ -165,8 +165,7 @@
 
 // Normalaization of the data
 
-import { getMessageCreationDetails } from "./components/chatBox/components/chatBoxBody/utils";
-import { UsersType,MessagesType,PersonalChatsType,UserType } from "./types"
+import { getMessageCreationDetails } from "./components/chatBox/components/chatBoxBody/utils/messageUtils";
 
 // export const _users = {
 //     "USER ID": {
@@ -212,7 +211,7 @@ import { UsersType,MessagesType,PersonalChatsType,UserType } from "./types"
 
 const { timestamp, creationDate } = getMessageCreationDetails();
 
-export const CurrentUser:UserType = {
+export const CurrentUser = {
     id: "1",
     name: "Dhairya",
     profilePicture: "https://picsum.photos/200",
@@ -221,50 +220,45 @@ export const CurrentUser:UserType = {
     groupChats:[]
 }
 
-export const Users:UsersType = {
+export const Users = {
     1: {
         id: "1",
         name: "Dhairya",
         profilePicture: "https://picsum.photos/200",
-        personalChats: ["1#2", "1#3", "1#5"],
+        chatRooms: ["1#2", "1#3", "1#5"],
         password:"dhairya",
-        groupChats:[]
     },
     2: {
         id: "2",
         name: "Dwij",
         profilePicture: "https://picsum.photos/200",
         password:"dwij",
-        personalChats: ["1#2"],
-        groupChats:[]
+        chatRooms: ["1#2"],
     },
     3: {
         id: "3",
         name: "Heet",
         profilePicture: "https://picsum.photos/200",
         password:"heet",
-        personalChats: ["1#3"],
-        groupChats:[]
+        chatRooms: ["1#3"],
     },
     4: {
         id: "4",
         name: "Neel",
         profilePicture: "https://picsum.photos/200",
         password:"neel",
-        personalChats: [],
-        groupChats:[]
+        chatRooms: [],
     },
     5: {
         id: "5",
         name: "Karan",
         profilePicture: "https://picsum.photos/200",
         password:"karan",
-        personalChats: ["1#5"],
-        groupChats:[]
+        chatRooms: ["1#5"],
     }
 }
 
-export const Messages: MessagesType = {
+export const Messages = {
     1: {
         id: "1",
         content: "Hii",
@@ -320,7 +314,7 @@ export const Messages: MessagesType = {
     }
 }
 
-export const PersonalChats: PersonalChatsType = {
+export const ChatRoomRecord = {
     "1#2": {
         id: "1#2",
         participants: ["1", "2"],

@@ -1,27 +1,16 @@
-import { ChangeActiveChat } from "../components/chatList/types"
-import { SendMessage,ChangeActiveMessages } from "../components/chatBox/types"
-import { SignUp } from "../pages/SignUp/types"
-import { LogIn } from "../pages/Login/types"
-import { LogOut } from "../components/header/types"
-import { ResetAuthState } from "../components/form/types"
-
-export type ChatActions = SendMessage  | ChangeActiveChat | ChangeActiveMessages
-export type AuthActions = SignUp | LogIn | LogOut | ResetAuthState
-
-export type onActionType = (args: ChatActions) => void;
-export type onAuthActionType = (args: AuthActions) => void;
 
 
-export type UserType = {
+
+
+export type User = {
     id: string,
     name: string,
     profilePicture: string,
     password: string,
-    personalChats: string[],
-    groupChats: string[]
+    chatRooms: string[],
 };
 
-export type MessageType = {
+export type Message = {
     id: string,
     content: string,
     from: string,
@@ -36,20 +25,14 @@ export type PersonalChatType = {
     messages:string[]
 }
 
-export type GroupChatType = {
-    id: string,
-    groupName:string,
-    participants: string[],
-    messages:string[]
+
+export type UsersRecord = {
+    [id: string]: User
 }
 
-export type UsersType = {
-    [id: string]: UserType
-}
-
-
-export type MessagesType = {
-    [id:string]:MessageType
+//MessageRecords
+export type MessagesRecord = {
+    [id:string]:Message
 }
 
 export type PersonalChatsType = {
@@ -72,7 +55,7 @@ export enum AUTH_STATUS {
 
 export type AuthProcessType = {
   status: string;
-  user: UserType | null;
+  user: User | null;
   error: string | null;
 };
 

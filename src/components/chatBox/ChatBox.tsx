@@ -7,28 +7,34 @@ import { EmptyState } from "./components/emptyState";
 import { ChatBoxHeader } from "./components/chatBoxHeader";
 
 // utils 
-import { getUserNameFromId } from "../../utils/chatUtils";
+import { resolveUser } from "../../utils/chatUtils";
 
 // styles 
 import styles from "./ChatBox.module.css";
 
 // types
 import { ChatBoxProps } from "./types";
+import { useUser } from "../../contexts/UserContext";
 
 
-export const ChatBox = ({ activeChatId, activeMessages, onAction }: ChatBoxProps) => {
-
+export const ChatBox = ({ activeChatRoomId, activeMessages, onAction }: ChatBoxProps) => {
+  const { user } = useUser();
   const activeChatUserName = useMemo(
-    () => getUserNameFromId(activeChatId),
-    [activeChatId]
+    () => {
+      if (user) {
+        return resolveUser(user.id,activeChatRoomId)
+      }
+      return "";
+    },
+    [activeChatRoomId, user]
   );
 
 
   return (
     <div className={styles.wrapper}>
-      {activeChatId ? <>
+      {activeChatRoomId ? <>
         <ChatBoxHeader activeChatUserName={activeChatUserName}/>
-        <ChatBoxBody activeChatUserName={activeChatUserName} onAction={onAction} activeChatId={activeChatId} activeMessages={activeMessages} />
+        <ChatBoxBody activeChatUserName={activeChatUserName} onAction={onAction} activeChatRoomId={activeChatRoomId} activeMessages={activeMessages} />
       </> : <EmptyState />}
     </div>
   );

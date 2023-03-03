@@ -1,6 +1,3 @@
-// libs
-import { useEffect } from "react";
-
 // components
 import { Layout } from "../../components/layout";
 import { ChatList } from "../../components/chatList";
@@ -10,29 +7,24 @@ import { ChatBox } from "../../components/chatBox";
 // hooks
 import { useChatActions } from "../../hooks/useChatActions";
 
-// types 
-import { onAuthActionType } from "../../types";
 
 
-type HomeProps = {
-    onAuthAction:onAuthActionType
-}
 
 
-export const Home = ({ onAuthAction }: HomeProps) => {
-  const { activeChatId, activeMessages, onAction } = useChatActions();
+export const Home = () => {
+  const { activeChatRoomId, activeMessages,changeActiveChatRoom, onAction } = useChatActions();
 
   return (
     <Layout>
       <Layout.Slot name="header">
-        <Header onAuthAction={onAuthAction} />
+        <Header />
       </Layout.Slot>
       <Layout.Slot name="leftPanel">
-        <ChatList onAction={onAction} activeChatId={activeChatId} />
+        <ChatList onItemClick={changeActiveChatRoom} activeChatRoomId={activeChatRoomId} />
       </Layout.Slot>
       <Layout.Slot name="rightPanel">
         <ChatBox
-          activeChatId={activeChatId}
+          activeChatRoomId={activeChatRoomId}
           activeMessages={activeMessages}
           onAction={onAction}
         />
