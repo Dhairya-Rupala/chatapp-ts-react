@@ -5,14 +5,14 @@ import { Header } from "../../components/header";
 import { ChatBox } from "../../components/chatBox";
 
 // hooks
-import { useChatActions } from "../../hooks/useChatActions";
+import { useChatRoom } from "../../hooks/useChatRoom";
 
 
 
 
 
 export const Home = () => {
-  const { activeChatRoomId, activeMessages,changeActiveChatRoom, onAction } = useChatActions();
+  const { activeChatRoomId,changeActiveChatRoom,  } = useChatRoom();
 
   return (
     <Layout>
@@ -25,8 +25,6 @@ export const Home = () => {
       <Layout.Slot name="rightPanel">
         <ChatBox
           activeChatRoomId={activeChatRoomId}
-          activeMessages={activeMessages}
-          onAction={onAction}
         />
       </Layout.Slot>
     </Layout>

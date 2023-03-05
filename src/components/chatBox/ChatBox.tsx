@@ -6,19 +6,24 @@ import {ChatBoxBody} from "./components/chatBoxBody"
 import { EmptyState } from "./components/emptyState";
 import { ChatBoxHeader } from "./components/chatBoxHeader";
 
+// hooks
+import { useUser } from "../../contexts/UserContext";
+
 // utils 
 import { resolveUser } from "../../utils/chatUtils";
 
 // styles 
 import styles from "./ChatBox.module.css";
 
-// types
-import { ChatBoxProps } from "./types";
-import { useUser } from "../../contexts/UserContext";
 
 
-export const ChatBox = ({ activeChatRoomId, activeMessages, onAction }: ChatBoxProps) => {
+type ChatBoxProps = {
+    activeChatRoomId: string,
+}
+
+export const ChatBox = ({ activeChatRoomId }: ChatBoxProps) => {
   const { user } = useUser();
+
   const activeChatUserName = useMemo(
     () => {
       if (user) {
@@ -33,8 +38,8 @@ export const ChatBox = ({ activeChatRoomId, activeMessages, onAction }: ChatBoxP
   return (
     <div className={styles.wrapper}>
       {activeChatRoomId ? <>
-        <ChatBoxHeader activeChatUserName={activeChatUserName}/>
-        <ChatBoxBody activeChatUserName={activeChatUserName} onAction={onAction} activeChatRoomId={activeChatRoomId} activeMessages={activeMessages} />
+        <ChatBoxHeader activeChatUserName={activeChatUserName} />
+        <ChatBoxBody activeChatUserName={activeChatUserName}  activeChatRoomId={activeChatRoomId}  />
       </> : <EmptyState />}
     </div>
   );

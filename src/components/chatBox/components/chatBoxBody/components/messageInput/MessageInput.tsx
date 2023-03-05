@@ -7,16 +7,16 @@ import { Button } from "../../../../../button";
 // styles 
 import styles from "./MessageInput.module.css";
 
-// types 
+
 type MessageInputProps = {
     currentMessage:string,
     handleCurrentMessageChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    handleSend: (e: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => void;
+    handleMessageSend: (e: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => void;
 }
 
 
 
-export const MessageInput = ({ currentMessage,handleCurrentMessageChange,handleSend }: MessageInputProps) => {
+export const MessageInput = ({ currentMessage,handleCurrentMessageChange,handleMessageSend }: MessageInputProps) => {
 
     return (
         <div className={styles.messageInputWrapper}>
@@ -25,11 +25,11 @@ export const MessageInput = ({ currentMessage,handleCurrentMessageChange,handleS
           className={styles.messageInput}
           placeholder="Type the message"
           onChange={handleCurrentMessageChange}
-          onKeyDown={handleSend}
+          onKeyDown={handleMessageSend}
           value={currentMessage}
         />
         <Button disabled={currentMessage.trim() === ""}
-          onClick={handleSend}
+          onClick={handleMessageSend}
         >
           Send
         </Button>

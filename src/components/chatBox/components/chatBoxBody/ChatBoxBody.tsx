@@ -7,6 +7,7 @@ import { MessageInput } from "./components/messageInput/MessageInput";
 
 // hooks
 import { useChatBoxActions } from "./hooks/useChatBoxActions";
+import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 import { useUser } from "../../../../contexts/UserContext";
 
 // utils 
@@ -15,31 +16,33 @@ import { getFriendIdFromChatRoomId } from "../../../../utils/chatUtils";
 // styles
 import styles from "./ChatBoxBody.module.css";
 
-// types 
-import { ChatBoxBodyProps } from "./types";
 
+export type ChatBoxBodyProps = {
+  activeChatRoomId: string;
+  activeChatUserName: string;
+};
 
 
 export const ChatBoxBody = ({
   activeChatRoomId,
-  activeMessages,
   activeChatUserName,
-  onAction,
 }: ChatBoxBodyProps) => {
   const { user } = useUser();
   const {
     currentMessage,
     handleCurrentMessageChange,
-    handleSend,
+    handleMessageSend,
     messagesEndRef,
-    messageLoaderRef,
-    messagesWrapperRef,
-  } = useChatBoxActions(activeChatRoomId, onAction, user);
+    activeMessages,
+    fetchMoreMessages
+  } = useChatBoxActions(activeChatRoomId, user);
 
+  const { targetRef: messageLoaderRef, rootRef: messagesWrapperRef } =
+    useIntersectionObserver({ callback: fetchMoreMessages });
+  
   return (
     <>
       <div
-        id="ok"
         className={styles.chatWrapper}
         ref={messagesWrapperRef as RefObject<HTMLDivElement>}
       >
@@ -54,7 +57,7 @@ export const ChatBoxBody = ({
               message.from === user?.id
                 ? { id: user?.id, name: user?.name }
                 : {
-                    id: (user?getFriendIdFromChatRoomId(user.id,activeChatRoomId):undefined),
+                    id: (user? getFriendIdFromChatRoomId(user.id,activeChatRoomId):undefined),
                     name: activeChatUserName,
                   }
             }
@@ -72,7 +75,7 @@ export const ChatBoxBody = ({
       <MessageInput
         currentMessage={currentMessage}
         handleCurrentMessageChange={handleCurrentMessageChange}
-        handleSend={handleSend}
+        handleMessageSend={handleMessageSend}
       />
     </>
   );

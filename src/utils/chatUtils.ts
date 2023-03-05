@@ -103,14 +103,14 @@ export function updateMessagesDB(chatRoomId: string, newMessage: Message): void 
 export function fetchMessages(chatRoomId: string, cursor: { from?: string, upto?: string } | undefined, pageSize: number | undefined=undefined) {
   const stringifiedChatRoomRecord = window.localStorage.getItem("ChatRoomRecord");
   const stringifiedMessages = window.localStorage.getItem("Messages");
-
-  if (stringifiedChatRoomRecord && stringifiedMessages) {
+  
+  if (stringifiedChatRoomRecord && stringifiedMessages && chatRoomId) {
     const chatRoomRecord = JSON.parse(stringifiedChatRoomRecord);
     const messages = JSON.parse(stringifiedMessages);
     let messageIds = chatRoomRecord[chatRoomId].messages;
     
     // Initial fetch 
-    if (!cursor && pageSize) {
+    if (!cursor && pageSize) {      
       messageIds = messageIds.slice(Math.max(messageIds.length-pageSize,0))
       const activeMessages = messageIds.map((messageId: string) => messages[messageId]);
       return activeMessages;
