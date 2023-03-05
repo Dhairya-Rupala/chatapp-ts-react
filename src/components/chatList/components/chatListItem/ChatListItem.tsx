@@ -1,12 +1,14 @@
 // libs 
 import { useCallback } from "react";
+// hooks
+import { useUser } from "../../../../contexts/UserContext";
 // utils 
 import { getChatRoomId } from "../../../../utils/chatUtils";
 // styles
 import styles from "./ChatListItem.module.css";
 // types
 import { User } from "../../../../types";
-import { useUser } from "../../../../contexts/UserContext";
+
 
 
 type ChatListItemProps = {

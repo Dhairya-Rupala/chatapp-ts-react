@@ -1,9 +1,7 @@
 // types
 import {
   Message,
-  User,
-  UsersRecord,
-  MessagesRecord
+  User
 } from "../types";
 
 export function getFriendIdFromChatRoomId(
@@ -41,29 +39,6 @@ export function getFriendsList(
   return [];
 }
 
-// export function getChatRoomMessages(chatRoomId) {
-// export function getChatRoomMessages(userId: string, friendId: string) {
-//   const stringifiedPersonalChats = window.localStorage.getItem("PersonalChats");
-//   const stringifiedMessages = window.localStorage.getItem("Messages");
-
-//   if (
-//     stringifiedPersonalChats  &&
-//     stringifiedMessages 
-//   ) {
-//     const chatRoomRecord: PersonalChatsType = JSON.parse(
-//       stringifiedPersonalChats
-//     );
-//     const allMessages: MessagesType = JSON.parse(stringifiedMessages);
-//     const chatRoomId = getChatRoomId(userId, friendId);
-//     const messageIds = chatRoomRecord[chatRoomId].messages;
-//     const activeMessages = messageIds.map(
-//       (messageId) => allMessages[messageId]
-//     );
-//     return activeMessages;
-//   }
-//   return [];
-// }
-
 export function getChatRoomMessages(chatRoomId: string):Message[] {
   const stringifiedChatRoomRecord = window.localStorage.getItem("ChatRoomRecord");
   const stringifiedMessages = window.localStorage.getItem("Messages");
@@ -78,7 +53,6 @@ export function getChatRoomMessages(chatRoomId: string):Message[] {
   return [];
 }
 
-// @@DONE 
 export function resolveUser(userId:string,chatRoomId: string):string {
   const stringifiedUsers = window.localStorage.getItem("Users");
   if (stringifiedUsers) {
@@ -89,41 +63,7 @@ export function resolveUser(userId:string,chatRoomId: string):string {
   return "";
 }
 
-// export function addMessageToChatRoom(messageId, chatRoomId)
-// export function addMessageToMessageRecords(message)
-// export function updateLocalStorage(
-//   chatRoomId: string,
-//   newMessage: MessageType
-// ) {
-//     const stringifiedPersonalChats = window.localStorage.getItem("PersonalChats");
-//     const stringifiedMessages = window.localStorage.getItem("Messages");
 
-//     //chatRoomId -> user1 user2
-  
-//     if (
-//       typeof stringifiedMessages === "string" &&
-//       typeof stringifiedPersonalChats === "string"
-//     ) {
-//       // const personalChatId = getChatRoomId(user.id, friendId);
-//       const allMessages: MessagesType = JSON.parse(stringifiedMessages);
-//       const personalChats: PersonalChatsType = JSON.parse(
-//         stringifiedPersonalChats
-//       );
-
-//       allMessages[newMessage.id] = newMessage;
-//       personalChats[personalChatId].messages.push(newMessage.id);
-
-//       window.localStorage.setItem("Messages", JSON.stringify(allMessages));
-//       window.localStorage.setItem(
-//         "PersonalChats",
-//         JSON.stringify(personalChats)
-//       );
-//     }
-// }
-
-
-
-// @@ DONE
 export function addMessageToChatRoom(messageId: string, chatRoomId: string): void{
   const stringifiedChatRoomRecord = window.localStorage.getItem("ChatRoomRecord");
   if (stringifiedChatRoomRecord) {
@@ -139,7 +79,6 @@ export function addMessageToChatRoom(messageId: string, chatRoomId: string): voi
   }
 }
 
-// @@ DONE 
 export function addMessageToMessageRecords(message: Message):void {
   const stringifiedMessages = window.localStorage.getItem("Messages");
   if (stringifiedMessages) {
@@ -154,7 +93,6 @@ export function addMessageToMessageRecords(message: Message):void {
   }
 }
 
-// @@ DONE 
 export function updateMessagesDB(chatRoomId: string, newMessage: Message): void {
   addMessageToChatRoom(newMessage.id, chatRoomId);
   addMessageToMessageRecords(newMessage);
@@ -162,84 +100,39 @@ export function updateMessagesDB(chatRoomId: string, newMessage: Message): void 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// cursor based fetching messages 
-// export function getPaginatedMessages(
-// {userId, chatRoomId, cursor {from, upto}, pageSize}
-export function getPartialActiveMessages(
-  userId: string,
-  chatRoomId: string,
-  messageCount: number,
-  alreadyFetched: number
-) {
-  const stringifiedPersonalChats = window.localStorage.getItem("ChatRoomRecord");
+export function fetchMessages(chatRoomId: string, cursor: { from?: string, upto?: string } | undefined, pageSize: number | undefined=undefined) {
+  const stringifiedChatRoomRecord = window.localStorage.getItem("ChatRoomRecord");
   const stringifiedMessages = window.localStorage.getItem("Messages");
-  
-  if (
-    typeof stringifiedPersonalChats === "string" &&
-    typeof stringifiedMessages === "string"
-  ) {
-    const personalChats = JSON.parse(
-      stringifiedPersonalChats
-    );
-    const allMessages = JSON.parse(stringifiedMessages);
 
-    // const compositeKey = getChatRoomId(userId, chatRoomId);
-    const messageIds = personalChats[chatRoomId].messages;
-    const activeMessages = messageIds.map(
-      (messageId:string) => allMessages[messageId]
-    );
-      const end = Math.max(activeMessages.length - alreadyFetched, 0);
-      const start = Math.max(0, end - messageCount);
-    return { messages: activeMessages.slice(start, end), totalMessages: activeMessages.length };
+  if (stringifiedChatRoomRecord && stringifiedMessages) {
+    const chatRoomRecord = JSON.parse(stringifiedChatRoomRecord);
+    const messages = JSON.parse(stringifiedMessages);
+    let messageIds = chatRoomRecord[chatRoomId].messages;
+    
+    // Initial fetch 
+    if (!cursor && pageSize) {
+      messageIds = messageIds.slice(Math.max(messageIds.length-pageSize,0))
+      const activeMessages = messageIds.map((messageId: string) => messages[messageId]);
+      return activeMessages;
+    }
+
+    // scrolling based fetching 
+    if (cursor && cursor.from && pageSize) {
+      const index = messageIds.findIndex((messageId: string) => messageId === cursor.from)
+      messageIds = messageIds.slice(Math.max(index - pageSize, 0), index);
+      const activeMessages = messageIds.map((messageId: string) => messages[messageId]);
+      return activeMessages;
+    }
+
+    //polling 
+    if (cursor && cursor.upto) {
+      const index = messageIds.findIndex((messageId: string) => messageId === cursor.upto)
+      messageIds = messageIds.slice(index + 1);
+      const activeMessages = messageIds.map((messageId: string) => messages[messageId]);
+      return activeMessages;
+    }
+
   }
-  return null;
 }
-
-//remove, only one query for fetching messages
-// export function pollLocalStorageMessages(currentUserId: string, activeChatId: string, messagesCount:number) {
-//   const stringifiedPersonalChats = window.localStorage.getItem("PersonalChats");
-//   const stringifiedMessages = window.localStorage.getItem("Messages");
-
-//   if (
-//     typeof stringifiedPersonalChats === "string" &&
-//     typeof stringifiedMessages === "string"
-//   ) {
-//     const personalChats = JSON.parse(
-//       stringifiedPersonalChats
-//     );
-//     const allMessages = JSON.parse(stringifiedMessages);
-//     const compositeKey = getChatRoomId(currentUserId, activeChatId);
-//     const messageIds = personalChats[compositeKey].messages;
-//     const activeMessages = messageIds.map(
-//       (messageId:string) => allMessages[messageId]
-//     );
-//     const updatedMessageCount = activeMessages.length;
-//     if (updatedMessageCount !== messagesCount) {
-//       const latestMessages = activeMessages.slice(messagesCount, updatedMessageCount);
-//       return {messages:latestMessages,totalMessages:updatedMessageCount}
-//     }
-//     return null;
-//   }
-//   return null;
-// }
-
-
 
 

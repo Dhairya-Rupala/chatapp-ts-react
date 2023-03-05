@@ -1,12 +1,12 @@
 // libs
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 // hooks
 import { useUser } from "../../contexts/UserContext";
 
 // utils
 import {
-  getPartialActiveMessages,
+  fetchMessages,
   updateMessagesDB
 } from "../../utils/chatUtils";
 
@@ -27,6 +27,19 @@ export const useChatActions = () => {
   const [activeChatRoomId, setActiveChatRoomId] = useState("");
   const [activeMessages, setActiveMessages] = useState<Message[]>([]);
 
+  useEffect(() => {
+    let interval: any;
+    interval = setInterval(() => {
+      const updatedMessages = fetchMessages(activeChatRoomId, { upto: activeMessages[activeMessages.length - 1].id })
+      if (!!updatedMessages.length) {
+        setActiveMessages(activeMessages=>[...activeMessages,...updatedMessages])
+      }
+    }, 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  },[activeChatRoomId, activeMessages])
+
   
   const sendMessage = useCallback(
     (message: Message) => {
@@ -40,40 +53,26 @@ export const useChatActions = () => {
     (chatRoomId: string) => {
       setActiveChatRoomId(chatRoomId);
       if (user) {
-        const updatedMessagesData = getPartialActiveMessages(
-          user.id,
-          chatRoomId,
-          8,
-          0
-        );
-        if (updatedMessagesData) {
-          setActiveMessages(updatedMessagesData.messages);
+        const updatedMessages = fetchMessages(chatRoomId,undefined,8);
+        if (updatedMessages) {
+          setActiveMessages(updatedMessages);
         }
       }
     },
     [user]
   );
 
-  const fetchMessages = useCallback(
-    (fetchCount: number) => {
-      if (user) {
-        const updatedMessagesData = getPartialActiveMessages(
-          user.id,
-          activeChatRoomId,
-          fetchCount,
-          activeMessages.length
-        );
-        if (updatedMessagesData) {
-          setActiveMessages((activeMessages) => {
-            return [
-            ...updatedMessagesData.messages,
+  const fetchMoreMessages = useCallback(
+    () => {
+        const updatedMessages = fetchMessages(activeChatRoomId,{from:activeMessages[0].id},8)
+        if (updatedMessages.length) {
+          setActiveMessages((activeMessages) => [
+            ...updatedMessages,
             ...activeMessages,
-          ]
-          });
+          ]);
         }
-      }
     },
-    [activeChatRoomId, activeMessages.length, user]
+    [activeChatRoomId, activeMessages]
   );
 
   const onAction = useCallback(
@@ -84,14 +83,14 @@ export const useChatActions = () => {
           break;
 
         case FETCH_MESSAGES:
-          fetchMessages(action.payload);
+          fetchMoreMessages();
           break;
 
         default:
           throw new Error(`Action is not supported`);
       }
     },
-    [fetchMessages, sendMessage]
+    [fetchMoreMessages, sendMessage]
   );
 
   return {
@@ -101,28 +100,3 @@ export const useChatActions = () => {
     onAction,
   };
 };
-
-
-
-// TODO:
-  // const messagesCount = useRef(0);
-
-  // useEffect(() => {
-  //   let interval: any;
-  //   interval = setInterval(() => {
-  //     if (user && activeChatRoomId) {
-  //       let updatedMessagesData = pollLocalStorageMessages(
-  //         user.id,
-  //         activeChatId,
-  //         messagesCount.current
-  //       );
-  //       if (updatedMessagesData) {
-  //         setActiveMessages(updatedMessagesData.messages);
-  //         messagesCount.current = updatedMessagesData.totalMessages;
-  //       }
-  //     }
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [activeChatId, user]);

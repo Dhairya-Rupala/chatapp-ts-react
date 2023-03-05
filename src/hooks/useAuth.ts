@@ -10,10 +10,10 @@ import {
 } from "../utils/authUtils";
 
 // types
-import { AUTH_STATUS, AuthProcessType } from "../types";
+import { AUTH_STATUS, AuthProcess } from "../types";
 
 export const useAuth = () => {
-  const [authProcess, setAuthProcess] = useState<AuthProcessType>(() => {
+  const [authProcess, setAuthProcess] = useState<AuthProcess>(() => {
     const stringifiedCurrentUser = window.sessionStorage.getItem("CurrentUser");
     if (stringifiedCurrentUser) {
       return {

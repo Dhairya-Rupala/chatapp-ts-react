@@ -1,7 +1,3 @@
-
-
-
-
 export type User = {
     id: string,
     name: string,
@@ -19,27 +15,6 @@ export type Message = {
     timestamp:string,
 }
 
-export type PersonalChatType = {
-    id: string,
-    participants: [string, string],
-    messages:string[]
-}
-
-
-export type UsersRecord = {
-    [id: string]: User
-}
-
-//MessageRecords
-export type MessagesRecord = {
-    [id:string]:Message
-}
-
-export type PersonalChatsType = {
-    [id:string]:PersonalChatType
-}
-
-
 export enum AUTH_STATUS {
   IDLE = "IDLE",
   LOGIN_START = "LOGIN_START",
@@ -53,7 +28,7 @@ export enum AUTH_STATUS {
   LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
 }
 
-export type AuthProcessType = {
+export type AuthProcess = {
   status: string;
   user: User | null;
   error: string | null;

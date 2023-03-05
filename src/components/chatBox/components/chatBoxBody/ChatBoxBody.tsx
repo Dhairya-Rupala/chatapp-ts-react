@@ -15,16 +15,10 @@ import { getFriendIdFromChatRoomId } from "../../../../utils/chatUtils";
 // styles
 import styles from "./ChatBoxBody.module.css";
 
-// types
-import { Message } from "../../../../types";
-import { onActionType } from "../../../../hooks/useChatActions/types";
+// types 
+import { ChatBoxBodyProps } from "./types";
 
-type ChatBoxBodyProps = {
-  activeChatRoomId: string;
-  activeMessages: Message[];
-  activeChatUserName: string;
-  onAction: onActionType;
-};
+
 
 export const ChatBoxBody = ({
   activeChatRoomId,
@@ -39,7 +33,7 @@ export const ChatBoxBody = ({
     handleSend,
     messagesEndRef,
     messageLoaderRef,
-    messageWrapperRef,
+    messagesWrapperRef,
   } = useChatBoxActions(activeChatRoomId, onAction, user);
 
   return (
@@ -47,7 +41,7 @@ export const ChatBoxBody = ({
       <div
         id="ok"
         className={styles.chatWrapper}
-        ref={messageWrapperRef as RefObject<HTMLDivElement>}
+        ref={messagesWrapperRef as RefObject<HTMLDivElement>}
       >
         {activeMessages?.map((message, index) => (
           <SingleMessage
@@ -83,14 +77,3 @@ export const ChatBoxBody = ({
     </>
   );
 };
-
-
-
-/*
-Workflow 
-
-if the last message is updated 
-   - check if the sender is current user => then scroll to bottom 
-   - check if the send is not the current user then show the absolute div 
-     which on click moves the scroll there
-*/

@@ -2,12 +2,10 @@
 import { createContext, useContext } from "react";
 
 // types 
-import { AuthProcessType } from "../types";
+import { AuthProcess } from "../types";
 
 
-type UserContextType = AuthProcessType | null
-
-const UserContext = createContext<UserContextType>(null);
+const UserContext = createContext<AuthProcess | null>(null);
 
 export const UserProvider = UserContext.Provider
 

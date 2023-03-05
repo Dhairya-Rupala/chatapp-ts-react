@@ -16,11 +16,11 @@ import { useIntersectionObserver } from "../../../../../hooks/useIntersectionObs
 import { getMessageCreationDetails } from "../utils/messageUtils";
 
 // actions
-import { SEND_MESSAGE, FETCH_MESSAGES } from "../../../actionTypes";
+import { SEND_MESSAGE, FETCH_MESSAGES } from "../actionTypes";
 
 // types
 import { User } from "../../../../../types";
-import { onActionType } from "../../../../../hooks/useChatActions/types";
+import { onActionType } from "../types"
 import { getFriendIdFromChatRoomId } from "../../../../../utils/chatUtils";
 
 
@@ -36,12 +36,11 @@ export const useChatBoxActions = (
   const fetchMoreMessages = useCallback(() => {
     onAction({
       type: FETCH_MESSAGES,
-      payload: 5,
     });
   }, [onAction]);
 
 
-  const { targetRef: messageLoaderRef, rootRef: messageWrapperRef } =
+  const { targetRef: messageLoaderRef, rootRef: messagesWrapperRef } =
     useIntersectionObserver({ callback: fetchMoreMessages });
   
   
@@ -88,6 +87,6 @@ export const useChatBoxActions = (
     handleSend,
     messagesEndRef,
     messageLoaderRef,
-    messageWrapperRef,
+    messagesWrapperRef,
   };
 };

@@ -1,5 +1,5 @@
 // libs 
-import { ReactNode } from "react";
+import { ReactNode,MouseEvent,KeyboardEvent } from "react";
 
 // styles
 import styles from "./Button.module.css";
@@ -7,7 +7,7 @@ import styles from "./Button.module.css";
 
 type ButtonProps = {
     children: ReactNode,
-    onClick: (e:any)=>void,
+    onClick: (e:KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>)=>void,
     disabled?: boolean,
     overrides?: {
         [property:string]:string

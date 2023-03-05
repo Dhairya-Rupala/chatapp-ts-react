@@ -1,5 +1,6 @@
 // hooks
 import { useUser } from "../../../../contexts/UserContext";
+
 // styles
 import styles from "./Profile.module.css";
 

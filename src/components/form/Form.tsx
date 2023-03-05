@@ -34,9 +34,6 @@ export const Form = ({title,footerMessage,redirectRoute,onSubmit,error,onPageNav
         onSubmit(username,password);
     }, [onSubmit, password, username])
     
-    const handlePageNavigate = useCallback(() => {
-        onPageNavigate();
-    },[onPageNavigate])
 
 
     return (
@@ -55,7 +52,7 @@ export const Form = ({title,footerMessage,redirectRoute,onSubmit,error,onPageNav
             {error ? <div className={styles.error}>{error}</div>:null}
             <div className={styles.footer}>
                 <Button onClick={handleSubmit}>{title}</Button>
-                <Link to={`/${redirectRoute}`} onClick={handlePageNavigate}>
+                <Link to={`/${redirectRoute}`} onClick={onPageNavigate}>
                     <div className={styles.footerMessage}>{footerMessage}</div>
                 </Link>
             </div>

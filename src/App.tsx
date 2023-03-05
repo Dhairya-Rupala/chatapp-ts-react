@@ -20,7 +20,6 @@ export default function App() {
   const { user } = useUser()
   useInitializeDB();
   
-  
   return (
     <div className="App">
       <Routes>

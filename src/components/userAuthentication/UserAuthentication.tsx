@@ -16,7 +16,6 @@ export type UserAuthenticationProviderProps = {
 }
 
 
-
 export const UserAuthentication = ({ children }: UserAuthenticationProviderProps) => {
   const { authProcess, ...authActions } = useAuth();
   return (

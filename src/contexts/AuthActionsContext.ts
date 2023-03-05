@@ -2,7 +2,7 @@
 import { createContext, useContext } from "react";
 
 
-type AuthActionsContextType = {
+type AuthActions = {
   login: (username: string, password: string) => void;
   logout: () => void;
   signup: (username: string, password: string) => void;
@@ -10,7 +10,7 @@ type AuthActionsContextType = {
 } | null
 
 
-const AuthActionsContext = createContext<AuthActionsContextType>(null)
+const AuthActionsContext = createContext<AuthActions>(null)
 
 export const AuthActionsProvider = AuthActionsContext.Provider
 

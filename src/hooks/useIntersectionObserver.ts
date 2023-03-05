@@ -5,7 +5,7 @@ import { useRef, useEffect } from "react";
 type IntersectionObserverConfig = {
   threshold?: number[];
   rootMargin?: string;
-  callback: Function;
+  callback: ()=>void;
 };
 
 export const useIntersectionObserver = ({
@@ -44,3 +44,4 @@ export const useIntersectionObserver = ({
     rootRef,
   };
 };
+

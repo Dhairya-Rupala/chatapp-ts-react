@@ -1,17 +1,17 @@
 // libs 
-import React from "react";
+import {ReactElement,Children} from "react";
 // styles
 import styles from "./Layout.module.css";
 // types
 import { SLOT_NAMES,Slot,LayoutType,LayoutProps } from "./types";
 
 
-const Layout:LayoutType = ({ children }: LayoutProps) => {
+const Layout:LayoutType = ({ children }:LayoutProps) => {
   const Slots : {
     [slot:string]:JSX.Element
   } = {}
   
-  React.Children.forEach(children, (child: React.ReactElement) => {
+  Children.forEach(children, (child: ReactElement) => {
     Slots[child?.props?.name] = child?.props?.children
   })
 
