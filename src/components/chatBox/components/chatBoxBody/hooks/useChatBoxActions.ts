@@ -10,7 +10,6 @@ import {
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-
 // utils
 import { getMessageCreationDetails } from "../utils/messageUtils";
 import {
@@ -22,14 +21,15 @@ import {
 // types
 import { User, Message } from "../../../../../types";
 
-
-
-export const useChatBoxActions = (activeChatRoomId: string, user: User | null) => {
+export const useChatBoxActions = (
+  activeChatRoomId: string,
+  user: User | null
+) => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [activeMessages, setActiveMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // polling db for latest messages 
+  // polling db for latest messages
   useEffect(() => {
     let interval: any;
     interval = setInterval(() => {
@@ -48,7 +48,6 @@ export const useChatBoxActions = (activeChatRoomId: string, user: User | null) =
     };
   }, [activeChatRoomId, activeMessages]);
 
-
   useEffect(() => {
     if (user) {
       const updatedMessages = fetchMessages(activeChatRoomId, undefined, 8);
@@ -57,7 +56,6 @@ export const useChatBoxActions = (activeChatRoomId: string, user: User | null) =
       }
     }
   }, [activeChatRoomId, user]);
-
 
   const handleCurrentMessageChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,21 +81,16 @@ export const useChatBoxActions = (activeChatRoomId: string, user: User | null) =
     }
   }, [activeChatRoomId, currentMessage, user]);
 
-  
-
   const handleMessageSend = useCallback(
     (e: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => {
-      if ("code" in e) {
-        if (e.code === "Enter" && currentMessage.trim() !== "") {
-          sendMessage();
-        }
-      } else {
+      if (
+        ("code" in e && e.code === "Enter" && currentMessage.trim()) ||
+        e.type === "click"
+      )
         sendMessage();
-      }
     },
     [currentMessage, sendMessage]
   );
-
 
   // callback for fetching more messages
   const fetchMoreMessages = useCallback(() => {
@@ -114,7 +107,6 @@ export const useChatBoxActions = (activeChatRoomId: string, user: User | null) =
     }
   }, [activeChatRoomId, activeMessages]);
 
-  
   return {
     currentMessage,
     handleCurrentMessageChange,

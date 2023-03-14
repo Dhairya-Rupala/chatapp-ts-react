@@ -1,32 +1,26 @@
 // libs
 import { ReactNode } from "react";
 
-// hooks 
+// hooks
 import { useAuth } from "../../hooks/useAuth";
 
 // contexts providers
 import { UserProvider } from "../../contexts/UserContext";
 import { AuthActionsProvider } from "../../contexts/AuthActionsContext";
 
-
-
-
 export type UserAuthenticationProviderProps = {
-    children:ReactNode
-}
+  children: ReactNode;
+};
 
-
-export const UserAuthentication = ({ children }: UserAuthenticationProviderProps) => {
+export const UserAuthentication = ({
+  children,
+}: UserAuthenticationProviderProps) => {
   const { authProcess, ...authActions } = useAuth();
   return (
     <UserProvider value={{ ...authProcess }}>
-      <AuthActionsProvider value={{...authActions}}>
+      <AuthActionsProvider value={{ ...authActions }}>
         {children}
       </AuthActionsProvider>
     </UserProvider>
   );
 };
-
-
-
-
