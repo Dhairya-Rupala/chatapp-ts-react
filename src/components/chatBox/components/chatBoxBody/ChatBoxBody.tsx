@@ -10,18 +10,16 @@ import { useChatBoxActions } from "./hooks/useChatBoxActions";
 import { useIntersectionObserver } from "../../../../hooks/useIntersectionObserver";
 import { useUser } from "../../../../contexts/UserContext";
 
-// utils 
+// utils
 import { getFriendIdFromChatRoomId } from "../../../../utils/chatUtils";
 
 // styles
 import styles from "./ChatBoxBody.module.css";
 
-
 export type ChatBoxBodyProps = {
   activeChatRoomId: string;
   activeChatUserName: string;
 };
-
 
 export const ChatBoxBody = ({
   activeChatRoomId,
@@ -34,12 +32,12 @@ export const ChatBoxBody = ({
     handleMessageSend,
     messagesEndRef,
     activeMessages,
-    fetchMoreMessages
+    fetchMoreMessages,
   } = useChatBoxActions(activeChatRoomId, user);
 
   const { targetRef: messageLoaderRef, rootRef: messagesWrapperRef } =
     useIntersectionObserver({ callback: fetchMoreMessages });
-  
+
   return (
     <>
       <div
@@ -57,7 +55,9 @@ export const ChatBoxBody = ({
               message.from === user?.id
                 ? { id: user?.id, name: user?.name }
                 : {
-                    id: (user? getFriendIdFromChatRoomId(user.id,activeChatRoomId):undefined),
+                    id: user
+                      ? getFriendIdFromChatRoomId(user.id, activeChatRoomId)
+                      : undefined,
                     name: activeChatUserName,
                   }
             }
@@ -70,7 +70,6 @@ export const ChatBoxBody = ({
             }
           />
         ))}
-  
       </div>
       <MessageInput
         currentMessage={currentMessage}

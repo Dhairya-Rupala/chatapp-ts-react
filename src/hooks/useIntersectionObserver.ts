@@ -12,8 +12,8 @@ export const useIntersectionObserver = ({
   callback,
   ...options
 }: IntersectionObserverConfig) => {
-  const targetRef = useRef<HTMLElement>();
-  const rootRef = useRef<HTMLElement>();
+  const targetRef = useRef<HTMLElement>(null);
+  const rootRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const targetElement = targetRef.current;
