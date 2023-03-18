@@ -84,8 +84,8 @@ export const useChatBoxActions = (
   const handleMessageSend = useCallback(
     (e: KeyboardEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>) => {
       if (
-        ("code" in e && e.code === "Enter" && currentMessage.trim()) ||
-        e.type === "click"
+        (("code" in e && e.code === "Enter") ||
+        e.type === "click") && currentMessage.trim()
       )
         sendMessage();
     },
